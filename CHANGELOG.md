@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.2](https://github.com/jgmcelwain/qewe/compare/v0.2.1...v0.2.2) (2022-01-04)
+
+
+### Features
+
+* add bundle size to README ([6fc9db0](https://github.com/jgmcelwain/qewe/commit/6fc9db00119e899024d8945ff5b564779cb1e4b4))
+
 ### [0.2.1](https://github.com/jgmcelwain/qewe/compare/v0.2.0...v0.2.1) (2022-01-04)
 
 
