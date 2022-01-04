@@ -1,5 +1,5 @@
 describe('qewe', () => {
-  it('needs tests', () => {
-    expect(true).toBe(true);
+  it('has tests', () => {
+    expect(false).toBe(true);
   });
 });
