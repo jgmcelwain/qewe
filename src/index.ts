@@ -48,33 +48,6 @@ class Qewe<T> {
     return this.queue.length === 0;
   }
 
-  /** get the first entry in the queue and remove it from the queue */
-  pop(): T | null {
-    const entry = this.queue.shift();
-
-    if (entry !== undefined) {
-      return entry.value;
-    } else {
-      return null;
-    }
-  }
-
-  /** get the last entry in the queue and remove it from the queue */
-  popEnd(): T | null {
-    const entry = this.queue.pop();
-
-    if (entry !== undefined) {
-      return entry.value;
-    } else {
-      return null;
-    }
-  }
-
-  /** remove all entries from the queue and return them */
-  clear(): QeweEntry<T>[] {
-    return this.queue.splice(0, this.queue.length);
-  }
-
   /** add a new value to the queue */
   enqueue(value: T, priority?: number): QeweEntry<T> {
     const entryPriority = priority ?? this.inferValuePriority?.(value) ?? null;
@@ -108,6 +81,33 @@ class Qewe<T> {
 
       return newEntry;
     }
+  }
+
+  /** get the first entry in the queue and remove it from the queue */
+  dequeue(): T | null {
+    const entry = this.queue.shift();
+
+    if (entry !== undefined) {
+      return entry.value;
+    } else {
+      return null;
+    }
+  }
+
+  /** get the last entry in the queue and remove it from the queue */
+  dequeueEnd(): T | null {
+    const entry = this.queue.pop();
+
+    if (entry !== undefined) {
+      return entry.value;
+    } else {
+      return null;
+    }
+  }
+
+  /** remove all entries from the queue and return them */
+  clear(): QeweEntry<T>[] {
+    return this.queue.splice(0, this.queue.length);
   }
 }
 
