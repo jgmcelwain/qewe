@@ -1,11 +1,11 @@
 name: test suite
 on: push
 jobs:
-  run-tests:
+  unit-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: install dependencies
+      - name: Install Dependencies
         run: yarn
-      - name: run test suite
+      - name: Run Test Suite
         run: yarn test
