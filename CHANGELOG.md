@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.1](https://github.com/jgmcelwain/qewe/compare/v0.3.0...v0.3.1) (2022-01-04)
+
+
+### Bug Fixes
+
+* remove unused code ([240ac32](https://github.com/jgmcelwain/qewe/commit/240ac32a30e85305992e935969bb1ac1e92e6fd4))
+
 ## [0.3.0](https://github.com/jgmcelwain/qewe/compare/v0.2.2...v0.3.0) (2022-01-04)
 
 
