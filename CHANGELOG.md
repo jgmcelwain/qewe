@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.3](https://github.com/jgmcelwain/qewe/compare/v0.3.2...v0.3.3) (2022-01-04)
+
+
+### Features
+
+* improve options formatting ([d1404f6](https://github.com/jgmcelwain/qewe/commit/d1404f6be283df781465f66419355d938af3b5cc))
+
+
+### Bug Fixes
+
+* max description to github ([b29c5b8](https://github.com/jgmcelwain/qewe/commit/b29c5b80cf9cb75198b5cc34420dcd25839dc07c))
+
 ### [0.3.2](https://github.com/jgmcelwain/qewe/compare/v0.3.1...v0.3.2) (2022-01-04)
 
 ### [0.3.1](https://github.com/jgmcelwain/qewe/compare/v0.3.0...v0.3.1) (2022-01-04)
