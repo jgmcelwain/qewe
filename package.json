@@ -1,7 +1,7 @@
 {
   "name": "qewe",
   "version": "0.3.2",
-  "description": "Type-Safe Max/Min Priority Queue",
+  "description": "Min/Max Priority Queue. Type-Safe.",
   "repository": "https://github.com/jgmcelwain/qewe",
   "author": "Jamie McElwain <jmie@hey.com>",
   "main": "dist/index.js",
