@@ -1,0 +1,10 @@
+node_modules
+src
+tests
+.DS_Store
+.github
+.eslintrc.js
+.prettierrc
+jest.config.js
+tsconfig.json
+yarn-error.log
