@@ -28,13 +28,13 @@ class Qewe<T> {
     return this.queue[this.queue.length - 1]?.value ?? null;
   }
 
-  /** list all entries in the queue */
-  get entries(): T[] {
+  /** list all values in the queue */
+  get values(): T[] {
     return this.queue.map((entry) => entry.value);
   }
 
-  /** list all entries in the queue along with their respective priorities */
-  get entriesWithPriorities(): QeweEntry<T>[] {
+  /** list all entries in the queue */
+  get entries(): QeweEntry<T>[] {
     return this.queue;
   }
 
