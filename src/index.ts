@@ -114,6 +114,3 @@ class Qewe<T> {
 }
 
 export { Qewe, QeweEntry, QeweOptions };
-
-const queue = new Qewe<string>();
-queue.enqueue('a', 1);
