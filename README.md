@@ -1,6 +1,6 @@
 # qewe
 
-[![npm version](https://badge.fury.io/js/qewe.svg)](https://npmjs.com/package/qewe) [![tests status](https://github.com/jgmcelwain/qewe/actions/workflows/tests.yml/badge.svg)](https://npmjs.com/package/qewe)
+[![npm version](https://badge.fury.io/js/qewe.svg)](https://npmjs.com/package/qewe) [![tests status](https://github.com/jgmcelwain/qewe/actions/workflows/tests.yml/badge.svg)](https://github.com/jgmcelwain/qewe/actions/workflows/tests.yml)
 
 qewe is a type-safe, zero-dependency max/min priority queue manager for JavaScript and TypeScript projects.
 
