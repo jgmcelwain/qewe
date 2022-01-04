@@ -1,6 +1,6 @@
 interface QeweOptions<T> {
   inferValuePriority?: (value: T) => number;
-  minQueue?: boolean;
+  isMinQueue?: boolean;
 }
 
 interface QeweEntry<T> {
@@ -15,7 +15,7 @@ class Qewe<T> {
 
   constructor(options?: QeweOptions<T>) {
     this.inferValuePriority = options?.inferValuePriority ?? null;
-    this.isMinQueue = !!options?.minQueue;
+    this.isMinQueue = !!options?.isMinQueue;
   }
 
   /** see the next entry in the queue without removing it */
