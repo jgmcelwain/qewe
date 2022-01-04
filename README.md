@@ -37,6 +37,20 @@ console.log(queue.size); // 1
 
 ## API
 
+### Types
+
+```ts
+interface QeweOptions<T> {
+  inferValuePriority?: (value: T) => number;
+  isMinQueue?: boolean;
+}
+
+interface QeweEntry<T> {
+  value: T;
+  priority: number;
+}
+```
+
 ### Options
 
 You can customize a qewe instance by passing an `options` object to the constructor.
@@ -48,24 +62,17 @@ const queue: new Qewe<{ x: number; y: number; mass: number }>({
 });
 ```
 
-#### `options.inferValuePriority: (value: T) => number`
+#### `inferValuePriority: (value: T) => number;`
 
-Allows you to define a function that will be used to infer the priority of a value when it is added to the queue. This can be useful when the priority is something that can be derived from the value itself, or if the priority needs to be fetched from a different source.
+Define a function that will be used to infer the priority of a value when it is added to the queue. This can be useful when the priority is something that can be derived from the value itself.
 
-#### `options.isMinQueue: boolean`
+`inferValuePriority` is `undefined` by default, which means you always have to provide the priority when adding a value to the queue.
 
-Indicate that you want to use a min-priority queue. This is `false` by default, resulting in a max-priority queue.
+#### `isMinQueue: boolean`
 
-### Entries
+Indicate that the instance should be a min-priority queue.
 
-New values are added to the queue as QeweEntry objects, which contain the value and its priority.
-
-```ts
-interface QeweEntry<T> {
-  value: T;
-  priority: number;
-}
-```
+`isMinQueue` is `false` by default, resulting in a max-priority queue.
 
 ### Instance Properties
 
