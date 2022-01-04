@@ -62,17 +62,17 @@ const queue: new Qewe<{ x: number; y: number; mass: number }>({
 });
 ```
 
-#### `inferValuePriority: (value: T) => number;`
+- #### `inferValuePriority: (value: T) => number`
 
-Define a function that will be used to infer the priority of a value when it is added to the queue. This can be useful when the priority is something that can be derived from the value itself.
+  Define a function that will be used to infer the priority of a value when it is added to the queue. This can be useful when the priority is something that can be derived from the value itself.
 
-`inferValuePriority` is `undefined` by default, which means you always have to provide the priority when adding a value to the queue.
+  `inferValuePriority` is `undefined` by default, which means you always have to provide the priority when adding a value to the queue.
 
-#### `isMinQueue: boolean`
+- #### `isMinQueue: boolean`
 
-Indicate that the instance should be a min-priority queue.
+  Indicate that the instance should be a min-priority queue.
 
-`isMinQueue` is `false` by default, resulting in a max-priority queue.
+  `isMinQueue` is `false` by default, resulting in a max-priority queue.
 
 ### Instance Properties
 
