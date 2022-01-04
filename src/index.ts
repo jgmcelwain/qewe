@@ -38,6 +38,11 @@ class Qewe<T> {
     return this.queue;
   }
 
+  /** get the amount of entries of the queue */
+  get size(): number {
+    return this.queue.length;
+  }
+
   /** get the first entry in the queue and remove it from the queue */
   pop(): T | null {
     const entry = this.queue.shift();
