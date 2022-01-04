@@ -33,7 +33,7 @@ class Qewe<T> {
     return this.queue.map((entry) => entry.value);
   }
 
-  /** list all entries in the queue */
+  /** list all entries in the queue (values with their priorities) */
   get entries(): QeweEntry<T>[] {
     return this.queue;
   }
@@ -41,6 +41,11 @@ class Qewe<T> {
   /** get the amount of entries of the queue */
   get size(): number {
     return this.queue.length;
+  }
+
+  /** check if the queue is empty */
+  get isEmpty(): boolean {
+    return this.queue.length === 0;
   }
 
   /** get the first entry in the queue and remove it from the queue */
@@ -106,4 +111,4 @@ class Qewe<T> {
   }
 }
 
-export { Qewe };
+export { Qewe, QeweEntry, QeweOptions };
