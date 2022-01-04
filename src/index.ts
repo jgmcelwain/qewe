@@ -49,6 +49,8 @@ class Qewe<T> {
   }
 
   /** add a new value to the queue */
+  enqueue(value: T): QeweEntry<T>;
+  enqueue(value: T, priority: number): QeweEntry<T>;
   enqueue(value: T, priority?: number): QeweEntry<T> {
     const entryPriority = priority ?? this.inferValuePriority?.(value) ?? null;
 
@@ -112,3 +114,6 @@ class Qewe<T> {
 }
 
 export { Qewe, QeweEntry, QeweOptions };
+
+const queue = new Qewe<string>();
+queue.enqueue('a', 1);
