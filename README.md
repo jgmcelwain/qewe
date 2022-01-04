@@ -6,8 +6,16 @@ qewe is a type-safe, zero-dependency max/min priority queue manager for JavaScri
 
 ## Installation
 
+Add qewe to your project using your favorite package manager:
+
 ```bash
 $ yarn add qewe
+```
+
+You can also import qewe with a script tag via [unpkg](https://unpkg.com):
+
+```html
+<script src="//unpkg.com/qewe" type="text/javascript"></script>
 ```
 
 ## Basic Usage
