@@ -35,31 +35,76 @@ console.log(value); // 'world'
 console.log(queue.size); // 1
 ```
 
-## `Qewe` instance properties
+## API
 
-| Property  | Type                               | Description                                              |
-| --------- | ---------------------------------- | -------------------------------------------------------- |
-| `size`    | `number`                           | The number of values in the queue.                       |
-| `isEmpty` | `boolean`                          | See if the queue is empty.                               |
-| `values`  | `T[]`                              | All values in the queue.                                 |
-| `entries` | `{ value: T; priority: number }[]` | All entries in the queue (values with their priorities). |
-| `peek`    | `T \| null`                        | See the next entry in the queue without removing it.     |
-| `peekEnd` | `T \| null`                        | See the final entry in the queue without removing it.    |
+### Options
 
-## `Qewe` instance methods
+You can customize a qewe instance by passing an `options` object to the constructor.
 
-| Method    | Arguments                       | Return Type                        | Description                       |
-| --------- | ------------------------------- | ---------------------------------- | --------------------------------- |
-| `pop`     | -                               | `T \| null`                        | Get the first entry in the queue. |
-| `popEnd`  | -                               | `T \| null`                        | Get the last entry in the queue.  |
-| `clear`   | -                               | `{ value: T; priority: number }[]` | Remove all values from the queue. |
-| `enqueue` | `(value: T, priority?: number)` | `{ value: T; priority: number }`   | Add a value to the queue.         |
+```ts
+const queue: new Qewe<{ x: number; y: number; mass: number }>({
+  inferValuePriority: (value) => value.mass,
+  isMinQueue: true,
+});
+```
 
-## Customizing instance behavior
+#### `options.inferValuePriority: (value: T) => number`
 
-The behavior of a `Qewe` instance can be configured by passing an `options` object to the constructor:
+Allows you to define a function that will be used to infer the priority of a value when it is added to the queue. This can be useful when the priority is something that can be derived from the value itself, or if the priority needs to be fetched from a different source.
 
-| Key                  | Type                   | Default     | Description                                                                                                                                                                                                                                                                                                                                                                                      |
-| -------------------- | ---------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `isMinQueue`         | `boolean`              | `false`     | If `true`, the instance will be a min-priority queue (smallest priority first).                                                                                                                                                                                                                                                                                                                  |
-| `inferValuePriority` | `(value: T) => number` | `undefined` | If the values you are queueing have a property that means their priority can be inferred then you can provide a function to extract it. If this function is provided then the second argument of `queue.enqueue` does not need to be supplied. You may choose to supply this argument anyway - it will then precedence over the result of `inferValuePriority`, so can be used as an "override". |
+#### `options.isMinQueue: boolean`
+
+Indicate that you want to use a min-priority queue. This is `false` by default, resulting in a max-priority queue.
+
+### Entries
+
+New values are added to the queue as QeweEntry objects, which contain the value and its priority.
+
+```ts
+interface QeweEntry<T> {
+  value: T;
+  priority: number;
+}
+```
+
+### Instance Properties
+
+```ts
+// see the next entry in the queue without removing it
+Qewe.prototype.peek: T | null;
+
+// see the final entry in the queue without removing it
+Qewe.prototype.peekEnd: T | null;
+
+// list all values in the queue
+Qewe.prototype.values: T[];
+
+// list all entries in the queue
+Qewe.prototype.entries: QeweEntry<T>[];
+
+// get the amount of entries of the queue
+Qewe.prototype.size: number;
+
+// check if the queue is empty
+Qewe.prototype.isEmpty: boolean;
+```
+
+### Instance Methods
+
+```ts
+// add a new value to the queue
+Qewe.prototype.enqueue(value: T, priority: number): QeweEntry<T>;
+
+// add a new value to the queue, inferring its priority
+// NOTE: this is only available when `options.inferValuePriority` is defined
+Qewe.prototype.enqueue(value: T): QeweEntry<T>;
+
+// get the first entry in the queue and remove it from the queue
+Qewe.prototype.dequeue(): T | null;
+
+// get the last entry in the queue and remove it from the queue
+Qewe.prototype.dequeueEnd(): T | null;
+
+// remove all entries from the queue and return them
+Qewe.prototype.clear(): QeweEntry<T>[];
+```
