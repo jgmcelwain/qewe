@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/jgmcelwain/qewe/compare/v0.2.2...v0.3.0) (2022-01-04)
+
+
+### Features
+
+* add release tagging workflow ([a379bbe](https://github.com/jgmcelwain/qewe/commit/a379bbe43584e1c27c073a5df39531aeec698c8b))
+* add unpkg reference ([cd4ef2d](https://github.com/jgmcelwain/qewe/commit/cd4ef2d85c96ba1a3a889ef690c3281a0751e0cc))
+* another workflow naming update ([1eb7a6a](https://github.com/jgmcelwain/qewe/commit/1eb7a6a3fea6886205738065a3859ae6b96edc01))
+* final update to tests workflow names ([bab4bbd](https://github.com/jgmcelwain/qewe/commit/bab4bbd12e6d3c8ee87c4f14baa297f53f2286d9))
+* improved type & option documentation ([7e4cd65](https://github.com/jgmcelwain/qewe/commit/7e4cd65c2df2ca4e3dafaf4d7f80b24c0711119f))
+* overload for enqueue that supports inferred priority ([0691889](https://github.com/jgmcelwain/qewe/commit/069188953001f1f651bff2388b030a9c4fa77c3e))
+* tests! ([4dd6ce0](https://github.com/jgmcelwain/qewe/commit/4dd6ce079a9644226a9ecfee81f107ed10fe441b))
+* update documentation ([d5380ad](https://github.com/jgmcelwain/qewe/commit/d5380ade40f1ee56307906f9cabd84261c5cac87))
+* update release tag workflow names ([bbfdeb8](https://github.com/jgmcelwain/qewe/commit/bbfdeb837c5ecd3b73e43c1790448cb314dafe3f))
+* update tests workflow names ([9c94c5a](https://github.com/jgmcelwain/qewe/commit/9c94c5adccf0409976c6d93521007d44b415219b))
+
+
+### Bug Fixes
+
+* replace invalid job name character ([844485b](https://github.com/jgmcelwain/qewe/commit/844485b273f0205a159ac9fa086ab9a583964c1b))
+
 ### [0.2.2](https://github.com/jgmcelwain/qewe/compare/v0.2.1...v0.2.2) (2022-01-04)
 
 
