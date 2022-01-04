@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.1](https://github.com/jgmcelwain/qewe/compare/v0.2.0...v0.2.1) (2022-01-04)
+
+
+### Features
+
+* add LICENSE ([323e4ed](https://github.com/jgmcelwain/qewe/commit/323e4ed0c39788619d358bfbbd4bc21aa48ba246))
+
+
+### Bug Fixes
+
+* correct README tests link ([d51b30f](https://github.com/jgmcelwain/qewe/commit/d51b30f91296658f07941196ea59fb6d585e2227))
+
 ## [0.2.0](https://github.com/jgmcelwain/qewe/compare/v0.1.0...v0.2.0) (2022-01-04)
 
 
