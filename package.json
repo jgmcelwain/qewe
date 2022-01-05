@@ -36,6 +36,11 @@
         "path": "dist/**.*",
         "maxSize": "2kb"
       }
-    ]
+    ],
+    "ci": {
+      "trackBranches": [
+        "main"
+      ]
+    }
   }
 }
