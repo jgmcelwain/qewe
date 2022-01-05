@@ -34,7 +34,7 @@
     "files": [
       {
         "path": "dist/**.*",
-        "maxSize": "100kb"
+        "maxSize": "2kb"
       }
     ]
   }
