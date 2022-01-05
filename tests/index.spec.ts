@@ -35,14 +35,16 @@ describe('queue functionality', () => {
     expect(entries).toStrictEqual([{ priority: 1, value: 'a' }]);
   });
 
-  it('returns null if the queue is empty and a dequeue is attempted', () => {
-    const value = queue.dequeue();
-
-    expect(value).toBe(null);
+  it('throws an error if the queue is empty and a dequeue is attempted', () => {
+    expect(() => queue.dequeue()).toThrowError(
+      'Dequeue failed - the queue is empty.',
+    );
   });
 
   it('throws an error if no priority is provided', () => {
-    expect(() => queue.enqueue('d')).toThrowError();
+    expect(() => queue.enqueue('d')).toThrowError(
+      "No priority value, or function to infer an entry's priority value, was provided.",
+    );
   });
 });
 
