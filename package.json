@@ -38,7 +38,7 @@
       }
     ],
     "ci": {
-      "repoBasBranch": "main"
+      "repoBranchBase": "main"
     }
   }
 }
