@@ -1,4 +1,4 @@
-name: "Bundlephobia""
+name: 'Bundlephobia'
 on:
   push:
     branches:
