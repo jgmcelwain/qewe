@@ -49,7 +49,7 @@ describe('queue functionality', () => {
 });
 
 describe('min queue', () => {
-  const queue = new Qewe<string>({ minQueue: true });
+  const queue = new Qewe<string>({ queueType: 'min' });
 
   it('adds values in reverse priority order', () => {
     queue.enqueue('a', 1);
@@ -83,6 +83,20 @@ describe('inferred priority', () => {
     expect(queue.size).toBe(4);
     expect(queue.peek).toStrictEqual({ x: 3, y: 4, mass: 7 });
     expect(queue.peekEnd).toStrictEqual({ x: -3, y: 9, mass: 0.5 });
+  });
+});
+
+describe('limits queue size', () => {
+  const queue = new Qewe<string>({ maximumQueueSize: 3 });
+
+  it('prevents entries from being queued when the maximum size is reached', () => {
+    queue.enqueue('a', 3);
+    queue.enqueue('b', 1);
+    queue.enqueue('c', 2);
+
+    expect(() => queue.enqueue('d', 4)).toThrowError(
+      'Cannot enqueue - the queue is already at its max size.',
+    );
   });
 });
 

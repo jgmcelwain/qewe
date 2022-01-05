@@ -38,9 +38,12 @@ You can also import qewe with a script tag via [unpkg](https://unpkg.com):
 ### Types
 
 ```ts
+type QueueType = 'min' | 'max';
+
 interface QeweOptions<T> {
+  queueType?: QueueType;
+  maximumQueueSize?: number;
   inferValuePriority?: (value: T) => number;
-  minQueue?: boolean;
   initialValues?: T[] | QeweEntry<T>[];
 }
 
@@ -56,14 +59,27 @@ You can customize a qewe instance by passing an `options` object to the construc
 
 ```ts
 const queue: new Qewe<{ x: number; y: number; mass: number }>({
+  queueType: 'min',
+  maximumQueueSize: 4,
   inferValuePriority: (value) => value.mass,
-  minQueue: true,
   initialValues: [
     { x: 1, y: 2, mass: 4 },
     { x: 3, y: -3, mass: 1.5 }
   ]
 });
 ```
+
+- #### `queueType: QueueType`
+
+  Indicate whether the queue should be a minimum or maximum priority queue.
+
+  `queueType` is `max` by default.
+
+- #### `maximumQueueSize: number`
+
+  Specify a maximum number of entries that can exist in the instance's priority queue.
+
+  `maximumQueueSize` is `Infinity` by default.
 
 - #### `inferValuePriority: (value: T) => number`
 
@@ -78,12 +94,6 @@ const queue: new Qewe<{ x: number; y: number; mass: number }>({
   Note: if you provide an array of values you _must_ also have an `inferValuePriority` option so that the instance can infer the priority of each value.
 
   `initialValues` is `undefined` by default.
-
-- #### `minQueue: boolean`
-
-  Indicate that the instance should be a min-priority queue.
-
-  `minQueue` is `false` by default, resulting in a max-priority queue.
 
 ### Queue Behavior
 
@@ -118,41 +128,47 @@ The `peek` and `peekEnd` properties of an instance do _not_ throw an error when 
 ### Instance Properties
 
 ```ts
-// see the next entry in the queue without removing it
+// returns the next entry in the queue (without removing it, like dequeue does).
 Qewe.prototype.peek: T | undefined;
 
-// see the final entry in the queue without removing it
+// returns the final entry in the queue (without removing it, like dequeueEnd does).
 Qewe.prototype.peekEnd: T | undefined;
 
-// list all values in the queue
+// returns a list all values in the queue.
 Qewe.prototype.values: T[];
 
-// list all entries in the queue
+// returns a list all entries in the queue.
 Qewe.prototype.entries: QeweEntry<T>[];
 
-// get the amount of entries of the queue
+// returns the amount of entries of the queue.
 Qewe.prototype.size: number;
 
-// check if the queue is empty
+// returns the maximum amount of entries that the queue can hold.
+Qewe.prototype.maxSize: number;
+
+// returns whether or not if the queue is empty.
 Qewe.prototype.isEmpty: boolean;
+
+// returns the type (minimum or maximum) of the queue.
+Qewe.prototype.queueType: QueueType;
 ```
 
 ### Instance Methods
 
 ```ts
-// add a new value to the queue
+// add a new value to the queue. returns the new queue entry.
 Qewe.prototype.enqueue(value: T, priority: number): QeweEntry<T>;
 
-// add a new value to the queue, inferring its priority
-// NOTE: this is only available when `options.inferValuePriority` is defined
+// add a new value to the queue, inferring its priority. returns the new queue entry.
+// NOTE: this is only available when `options.inferValuePriority` is defined.
 Qewe.prototype.enqueue(value: T): QeweEntry<T>;
 
-// get the first entry in the queue and remove it from the queue
+// removes the first entry from the queue and returns it.
 Qewe.prototype.dequeue(): T;
 
-// get the last entry in the queue and remove it from the queue
+// removes the last entry from the queue and returns it.
 Qewe.prototype.dequeueEnd(): T;
 
-// remove all entries from the queue and return them
+// removes all entries from the queue and returns them.
 Qewe.prototype.clear(): QeweEntry<T>[];
 ```
