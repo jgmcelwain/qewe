@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.5.0](https://github.com/jgmcelwain/qewe/compare/v0.4.0...v0.5.0) (2022-01-05)
+
+
+### Features
+
+* new initialValues option ([b7b37dc](https://github.com/jgmcelwain/qewe/commit/b7b37dc2754078e97ddb8dc45f2b452d00641efc))
+* match queue empty syntax to try/catch ([e9f7124](https://github.com/jgmcelwain/qewe/commit/e9f712418c3a54a10afc31081cdf9460443863ae))
+
 ## [0.4.0](https://github.com/jgmcelwain/qewe/compare/v0.3.3...v0.4.0) (2022-01-05)
 
 
