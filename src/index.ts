@@ -19,13 +19,13 @@ class Qewe<T> {
   }
 
   /** see the next entry in the queue without removing it */
-  get peek(): T | null {
-    return this.queue[0]?.value ?? null;
+  get peek(): T | undefined {
+    return this.queue[0]?.value;
   }
 
   /** see the final entry in the queue without removing it */
-  get peekEnd(): T | null {
-    return this.queue[this.queue.length - 1]?.value ?? null;
+  get peekEnd(): T | undefined {
+    return this.queue[this.queue.length - 1]?.value;
   }
 
   /** list all values in the queue */
@@ -52,9 +52,9 @@ class Qewe<T> {
   enqueue(value: T): QeweEntry<T>;
   enqueue(value: T, priority: number): QeweEntry<T>;
   enqueue(value: T, priority?: number): QeweEntry<T> {
-    const entryPriority = priority ?? this.inferValuePriority?.(value) ?? null;
+    const entryPriority = priority ?? this.inferValuePriority?.(value);
 
-    if (entryPriority === null) {
+    if (entryPriority === undefined) {
       throw new Error(
         "No priority value, or function to infer an entry's priority value, was provided.",
       );
@@ -86,24 +86,24 @@ class Qewe<T> {
   }
 
   /** get the first entry in the queue and remove it from the queue */
-  dequeue(): T | null {
+  dequeue(): T {
     const entry = this.queue.shift();
 
     if (entry !== undefined) {
       return entry.value;
     } else {
-      return null;
+      throw new Error('Dequeue failed - the queue is empty.');
     }
   }
 
   /** get the last entry in the queue and remove it from the queue */
-  dequeueEnd(): T | null {
+  dequeueEnd(): T {
     const entry = this.queue.pop();
 
     if (entry !== undefined) {
       return entry.value;
     } else {
-      return null;
+      throw new Error('Dequeue failed - the queue is empty.');
     }
   }
 
