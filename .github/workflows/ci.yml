@@ -23,8 +23,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install Dependencies
         run: yarn
-      - uses: jackyef/bundlewatch-gh-action@master
       - name: Run Bundle Watch
+        uses: jackyef/bundlewatch-gh-action@master
         with:
           build-script: tsc
           bundlewatch-github-token: ${{ secrets.BUNDLEWATCH_GITHUB_TOKEN }}
