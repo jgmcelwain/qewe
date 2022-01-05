@@ -38,9 +38,11 @@ You can also import qewe with a script tag via [unpkg](https://unpkg.com):
 ### Types
 
 ```ts
+type QueueType = 'min' | 'max';
+
 interface QeweOptions<T> {
+  queueType?: QueueType;
   inferValuePriority?: (value: T) => number;
-  minQueue?: boolean;
   initialValues?: T[] | QeweEntry<T>[];
 }
 
@@ -57,13 +59,19 @@ You can customize a qewe instance by passing an `options` object to the construc
 ```ts
 const queue: new Qewe<{ x: number; y: number; mass: number }>({
   inferValuePriority: (value) => value.mass,
-  minQueue: true,
+  queueType: 'min',
   initialValues: [
     { x: 1, y: 2, mass: 4 },
     { x: 3, y: -3, mass: 1.5 }
   ]
 });
 ```
+
+- #### `queueType: QueueType`
+
+  Indicate whether the queue should be a minimum or maximum priority queue.
+
+  `queueType` is `max` by default.
 
 - #### `inferValuePriority: (value: T) => number`
 
@@ -78,12 +86,6 @@ const queue: new Qewe<{ x: number; y: number; mass: number }>({
   Note: if you provide an array of values you _must_ also have an `inferValuePriority` option so that the instance can infer the priority of each value.
 
   `initialValues` is `undefined` by default.
-
-- #### `minQueue: boolean`
-
-  Indicate that the instance should be a min-priority queue.
-
-  `minQueue` is `false` by default, resulting in a max-priority queue.
 
 ### Queue Behavior
 

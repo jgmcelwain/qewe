@@ -1,4 +1,6 @@
-type QeweOptions<T> = { minQueue?: boolean } & (
+type QueueType = 'min' | 'max';
+
+type QeweOptions<T> = { queueType?: QueueType } & (
   | QeweOptionsWithInfer<T>
   | QeweOptionsNoInfer<T>
 );
@@ -25,11 +27,13 @@ function isQeweEntry<T>(entry: T | QeweEntry<T>): entry is QeweEntry<T> {
 class Qewe<T> {
   protected queue: QeweEntry<T>[] = [];
   protected inferValuePriority: ((value: T) => number) | null;
-  protected isMinQueue: boolean;
+
+  /** maximum or minimum queue */
+  public queueType: QueueType;
 
   constructor(options?: QeweOptions<T>) {
     this.inferValuePriority = options?.inferValuePriority ?? null;
-    this.isMinQueue = !!options?.minQueue;
+    this.queueType = options?.queueType ?? 'max';
 
     if (options?.initialValues !== undefined) {
       for (const initialValue of options.initialValues) {
@@ -92,7 +96,7 @@ class Qewe<T> {
         // if this is a min queue we want to find the first entry in the queue
         // that has a priority higher than our new entry. if this is a max queue
         // then we want the opposite.
-        if (this.isMinQueue) {
+        if (this.queueType === 'min') {
           return entry.priority > newEntry.priority;
         } else {
           return entry.priority < newEntry.priority;
