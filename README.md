@@ -91,10 +91,10 @@ Alternatively, you can check if the queue is empty _before_ you attempt to deque
 ```ts
 const queue = new Qewe();
 
-if (queue.isEmpty) {
-  // queue is empty - do something else
-} else {
+if (!queue.isEmpty) {
   const value = queue.dequeue();
+} else {
+  // queue is empty - do something else
 }
 ```
 
