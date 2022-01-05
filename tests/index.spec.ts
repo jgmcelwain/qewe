@@ -86,6 +86,20 @@ describe('inferred priority', () => {
   });
 });
 
+describe('limits queue size', () => {
+  const queue = new Qewe<string>({ maximumQueueSize: 3 });
+
+  it('prevents entries from being queued when the maximum size is reached', () => {
+    queue.enqueue('a', 3);
+    queue.enqueue('b', 1);
+    queue.enqueue('c', 2);
+
+    expect(() => queue.enqueue('d', 4)).toThrowError(
+      'Cannot enqueue - the queue is already at its max size.',
+    );
+  });
+});
+
 describe('initialize with entries', () => {
   it('initializes with stated priority', () => {
     const queue = new Qewe<{ x: number; y: number }>({

@@ -1,6 +1,6 @@
 type QueueType = 'min' | 'max';
 
-type QeweOptions<T> = { queueType?: QueueType } & (
+type QeweOptions<T> = { queueType?: QueueType; maximumQueueSize?: number } & (
   | QeweOptionsWithInfer<T>
   | QeweOptionsNoInfer<T>
 );
@@ -31,9 +31,13 @@ class Qewe<T> {
   /** maximum or minimum queue */
   public queueType: QueueType;
 
+  /** maximum number of entries that can exist in the queue */
+  public maxSize: number;
+
   constructor(options?: QeweOptions<T>) {
     this.inferValuePriority = options?.inferValuePriority ?? null;
     this.queueType = options?.queueType ?? 'max';
+    this.maxSize = options?.maximumQueueSize ?? Infinity;
 
     if (options?.initialValues !== undefined) {
       for (const initialValue of options.initialValues) {
@@ -86,31 +90,35 @@ class Qewe<T> {
       throw new Error(
         "No priority value, or function to infer an entry's priority value, was provided.",
       );
-    } else {
-      const newEntry: QeweEntry<T> = {
-        priority: entryPriority,
-        value,
-      };
-
-      const priorityIndex = this.queue.findIndex((entry) => {
-        // if this is a min queue we want to find the first entry in the queue
-        // that has a priority higher than our new entry. if this is a max queue
-        // then we want the opposite.
-        if (this.queueType === 'min') {
-          return entry.priority > newEntry.priority;
-        } else {
-          return entry.priority < newEntry.priority;
-        }
-      });
-
-      if (priorityIndex > -1) {
-        this.queue.splice(priorityIndex, 0, newEntry);
-      } else {
-        this.queue.push(newEntry);
-      }
-
-      return newEntry;
     }
+
+    if (this.size === this.maxSize) {
+      throw new Error(`Cannot enqueue - the queue is already at its max size.`);
+    }
+
+    const newEntry: QeweEntry<T> = {
+      priority: entryPriority,
+      value,
+    };
+
+    const priorityIndex = this.queue.findIndex((entry) => {
+      // if this is a min queue we want to find the first entry in the queue
+      // that has a priority higher than our new entry. if this is a max queue
+      // then we want the opposite.
+      if (this.queueType === 'min') {
+        return entry.priority > newEntry.priority;
+      } else {
+        return entry.priority < newEntry.priority;
+      }
+    });
+
+    if (priorityIndex > -1) {
+      this.queue.splice(priorityIndex, 0, newEntry);
+    } else {
+      this.queue.push(newEntry);
+    }
+
+    return newEntry;
   }
 
   /** get the first entry in the queue and remove it from the queue */

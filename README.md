@@ -42,6 +42,7 @@ type QueueType = 'min' | 'max';
 
 interface QeweOptions<T> {
   queueType?: QueueType;
+  maximumQueueSize?: number;
   inferValuePriority?: (value: T) => number;
   initialValues?: T[] | QeweEntry<T>[];
 }
@@ -58,6 +59,8 @@ You can customize a qewe instance by passing an `options` object to the construc
 
 ```ts
 const queue: new Qewe<{ x: number; y: number; mass: number }>({
+  queueType: 'min',
+  maximumQueueSize: 4,
   inferValuePriority: (value) => value.mass,
   queueType: 'min',
   initialValues: [
@@ -72,6 +75,12 @@ const queue: new Qewe<{ x: number; y: number; mass: number }>({
   Indicate whether the queue should be a minimum or maximum priority queue.
 
   `queueType` is `max` by default.
+
+- #### `maximumQueueSize: number`
+
+  Specify a maximum number of entries that can exist in the instance's priority queue.
+
+  `maximumQueueSize` is `Infinity` by default.
 
 - #### `inferValuePriority: (value: T) => number`
 
@@ -134,6 +143,9 @@ Qewe.prototype.entries: QeweEntry<T>[];
 
 // get the amount of entries of the queue
 Qewe.prototype.size: number;
+
+// get the maximum amount of entries that the queue can hold
+Qewe.prototype.maxSize: number;
 
 // check if the queue is empty
 Qewe.prototype.isEmpty: boolean;
