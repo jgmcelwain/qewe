@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.6.3](https://github.com/jgmcelwain/qewe/compare/v0.6.2...v0.6.3) (2022-01-05)
+
+
+### Bug Fixes
+
+* es6 target ([f937476](https://github.com/jgmcelwain/qewe/commit/f9374764aaef21b934672f6c9812554133d47c82))
+
 ### [0.6.2](https://github.com/jgmcelwain/qewe/compare/v0.6.1...v0.6.2) (2022-01-05)
 
 
