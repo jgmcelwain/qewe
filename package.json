@@ -36,6 +36,9 @@
         "path": "dist/**.*",
         "maxSize": "2kb"
       }
-    ]
+    ],
+    "ci": {
+      "repoBasBranch": "main"
+    }
   }
 }
