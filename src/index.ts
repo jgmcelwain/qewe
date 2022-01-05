@@ -18,17 +18,17 @@ interface QeweEntry<T> {
   priority: number;
 }
 
-function isQeweEntry<T>(entry: T | QeweEntry<T>): entry is QeweEntry<T> {
-  const { value, priority } = entry as QeweEntry<T>;
-
-  return value !== undefined && priority !== undefined;
-}
-
 class Qewe<T> {
   protected _queue: QeweEntry<T>[] = [];
   protected _inferValuePriority: ((value: T) => number) | null = null;
   protected _queueType: QueueType = 'max';
   protected _maxSize = Infinity;
+
+  protected _isQeweEntry<T>(entry: T | QeweEntry<T>): entry is QeweEntry<T> {
+    const { value, priority } = entry as QeweEntry<T>;
+
+    return value !== undefined && priority !== undefined;
+  }
 
   constructor(options?: QeweOptions<T>) {
     if (options?.inferValuePriority !== undefined) {
@@ -45,7 +45,7 @@ class Qewe<T> {
 
     if (options?.initialValues !== undefined) {
       for (const initialValue of options.initialValues) {
-        if (isQeweEntry(initialValue)) {
+        if (this._isQeweEntry(initialValue)) {
           this.enqueue(initialValue.value, initialValue.priority);
         } else {
           this.enqueue(initialValue);
