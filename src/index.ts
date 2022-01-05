@@ -26,14 +26,22 @@ function isQeweEntry<T>(entry: T | QeweEntry<T>): entry is QeweEntry<T> {
 
 class Qewe<T> {
   protected _queue: QeweEntry<T>[] = [];
-  protected _inferValuePriority: ((value: T) => number) | null;
-  protected _queueType: QueueType;
-  protected _maxSize: number;
+  protected _inferValuePriority: ((value: T) => number) | null = null;
+  protected _queueType: QueueType = 'max';
+  protected _maxSize = Infinity;
 
   constructor(options?: QeweOptions<T>) {
-    this._inferValuePriority = options?.inferValuePriority ?? null;
-    this._queueType = options?.queueType ?? 'max';
-    this._maxSize = options?.maximumQueueSize ?? Infinity;
+    if (options?.inferValuePriority !== undefined) {
+      this._inferValuePriority = options?.inferValuePriority;
+    }
+
+    if (options?.queueType !== undefined) {
+      this._queueType = options?.queueType;
+    }
+
+    if (options?.maximumQueueSize !== undefined) {
+      this._maxSize = options?.maximumQueueSize;
+    }
 
     if (options?.initialValues !== undefined) {
       for (const initialValue of options.initialValues) {
