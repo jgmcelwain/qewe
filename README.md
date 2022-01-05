@@ -172,3 +172,13 @@ Qewe.prototype.dequeueEnd(): T;
 // removes all entries from the queue and returns them.
 Qewe.prototype.clear(): QeweEntry<T>[];
 ```
+
+### Errors
+
+All errors thrown by a Qewe instance are members of the `QeweError` enum, which can be imported from the package.
+
+| Error                           | Description                                                                                       |
+| ------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `QeweError.NoPriorityValue`     | Cannot enqueue - no priority value, or function to infer an entry's priority value, was provided. |
+| `QeweError.MaxQueueSizeReached` | Cannot enqueue - the queue is already at its max size.                                            |
+| `QeweError.EmptyQueue`          | Cannot dequeue - the queue is empty.                                                              |

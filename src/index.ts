@@ -18,6 +18,12 @@ interface QeweEntry<T> {
   priority: number;
 }
 
+enum QeweErrors {
+  NoPriorityValue = "Cannot enqueue - no priority value, or function to infer an entry's priority value, was provided.",
+  MaxQueueSizeReached = 'Cannot enqueue - the queue is already at its max size.',
+  EmptyQueue = 'Cannot dequeue - the queue is empty.',
+}
+
 class Qewe<T> {
   protected _queue: QeweEntry<T>[] = [];
   protected _inferValuePriority: ((value: T) => number) | null = null;
@@ -99,13 +105,11 @@ class Qewe<T> {
     const entryPriority = priority ?? this._inferValuePriority?.(value);
 
     if (entryPriority === undefined) {
-      throw new Error(
-        "No priority value, or function to infer an entry's priority value, was provided.",
-      );
+      throw new Error(QeweErrors.NoPriorityValue);
     }
 
     if (this.size === this._maxSize) {
-      throw new Error(`Cannot enqueue - the queue is already at its max size.`);
+      throw new Error(QeweErrors.MaxQueueSizeReached);
     }
 
     const newEntry: QeweEntry<T> = {
@@ -140,7 +144,7 @@ class Qewe<T> {
     if (entry !== undefined) {
       return entry.value;
     } else {
-      throw new Error('Dequeue failed - the queue is empty.');
+      throw new Error(QeweErrors.EmptyQueue);
     }
   }
 
@@ -151,7 +155,7 @@ class Qewe<T> {
     if (entry !== undefined) {
       return entry.value;
     } else {
-      throw new Error('Dequeue failed - the queue is empty.');
+      throw new Error(QeweErrors.EmptyQueue);
     }
   }
 
@@ -161,4 +165,4 @@ class Qewe<T> {
   }
 }
 
-export { Qewe, QeweEntry, QeweOptions };
+export { Qewe, QeweEntry, QeweOptions, QeweErrors };

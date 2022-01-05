@@ -1,4 +1,4 @@
-import { Qewe } from '../src/index';
+import { Qewe, QeweErrors } from '../src/index';
 
 describe('queue functionality', () => {
   const queue = new Qewe<string>();
@@ -36,15 +36,11 @@ describe('queue functionality', () => {
   });
 
   it('throws an error if the queue is empty and a dequeue is attempted', () => {
-    expect(() => queue.dequeue()).toThrowError(
-      'Dequeue failed - the queue is empty.',
-    );
+    expect(() => queue.dequeue()).toThrowError(QeweErrors.EmptyQueue);
   });
 
   it('throws an error if no priority is provided', () => {
-    expect(() => queue.enqueue('d')).toThrowError(
-      "No priority value, or function to infer an entry's priority value, was provided.",
-    );
+    expect(() => queue.enqueue('d')).toThrowError(QeweErrors.NoPriorityValue);
   });
 });
 
@@ -95,7 +91,7 @@ describe('limits queue size', () => {
     queue.enqueue('c', 2);
 
     expect(() => queue.enqueue('d', 4)).toThrowError(
-      'Cannot enqueue - the queue is already at its max size.',
+      QeweErrors.MaxQueueSizeReached,
     );
   });
 });
