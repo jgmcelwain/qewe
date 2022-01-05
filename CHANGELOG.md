@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.6.2](https://github.com/jgmcelwain/qewe/compare/v0.6.1...v0.6.2) (2022-01-05)
+
+
+### Features
+
+* update target ([edef429](https://github.com/jgmcelwain/qewe/commit/edef42923a94d9b46e29893c0310ea1b9e868545))
+
+
+### Bug Fixes
+
+* remove overload ([18a1665](https://github.com/jgmcelwain/qewe/commit/18a166589d00f68c8bf46cea355a3fc35faf4488))
+
 ### [0.6.1](https://github.com/jgmcelwain/qewe/compare/v0.6.0...v0.6.1) (2022-01-05)
 
 
