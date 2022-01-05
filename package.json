@@ -1,7 +1,7 @@
 {
   "name": "qewe",
   "version": "0.6.4",
-  "description": "Min/Max Priority Queue. Type-Safe.",
+  "description": "Opinionated, type-safe, zero-dependency max/min priority queue.",
   "repository": "https://github.com/jgmcelwain/qewe",
   "author": "Jamie McElwain <jmie@hey.com>",
   "main": "dist/index.js",
