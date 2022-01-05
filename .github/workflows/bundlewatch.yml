@@ -19,3 +19,4 @@ jobs:
         with:
           build-script: tsc
           bundlewatch-github-token: ${{ secrets.BUNDLEWATCH_GITHUB_TOKEN }}
+          branch-base: main
