@@ -1,8 +1,8 @@
-Q# qewe
+# qewe
 
 [![npm version](https://badge.fury.io/js/qewe.svg)](https://npmjs.com/package/qewe) [![tests status](https://github.com/jgmcelwain/qewe/actions/workflows/tests.yml/badge.svg)](https://github.com/jgmcelwain/qewe/actions/workflows/tests.yml) [![bundle size](https://img.shields.io/bundlephobia/min/qewe)](https://bundlephobia.com/package/qewe)
 
-qewe is a type-safe, zero-dependency max/min priority queue manager for JavaScript and TypeScript projects.
+qewe is an opinionated, type-safe, zero-dependency max/min priority queue manager for JavaScript and TypeScript projects.
 
 ```ts
 import { Qewe } from 'qewe';
