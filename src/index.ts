@@ -25,19 +25,15 @@ function isQeweEntry<T>(entry: T | QeweEntry<T>): entry is QeweEntry<T> {
 }
 
 class Qewe<T> {
-  protected queue: QeweEntry<T>[] = [];
-  protected inferValuePriority: ((value: T) => number) | null;
-
-  /** maximum or minimum queue */
-  public queueType: QueueType;
-
-  /** maximum number of entries that can exist in the queue */
-  public maxSize: number;
+  protected _queue: QeweEntry<T>[] = [];
+  protected _inferValuePriority: ((value: T) => number) | null;
+  protected _queueType: QueueType;
+  protected _maxSize: number;
 
   constructor(options?: QeweOptions<T>) {
-    this.inferValuePriority = options?.inferValuePriority ?? null;
-    this.queueType = options?.queueType ?? 'max';
-    this.maxSize = options?.maximumQueueSize ?? Infinity;
+    this._inferValuePriority = options?.inferValuePriority ?? null;
+    this._queueType = options?.queueType ?? 'max';
+    this._maxSize = options?.maximumQueueSize ?? Infinity;
 
     if (options?.initialValues !== undefined) {
       for (const initialValue of options.initialValues) {
@@ -50,41 +46,51 @@ class Qewe<T> {
     }
   }
 
-  /** see the next entry in the queue without removing it */
+  /** returns the next entry in the queue (without removing it, like dequeue does). */
   get peek(): T | undefined {
-    return this.queue[0]?.value;
+    return this._queue[0]?.value;
   }
 
-  /** see the final entry in the queue without removing it */
+  /** returns the final entry in the queue (without removing it, like dequeueEnd does). */
   get peekEnd(): T | undefined {
-    return this.queue[this.queue.length - 1]?.value;
+    return this._queue[this._queue.length - 1]?.value;
   }
 
-  /** list all values in the queue */
+  /** returns a list all values in the queue. */
   get values(): T[] {
-    return this.queue.map((entry) => entry.value);
+    return this._queue.map((entry) => entry.value);
   }
 
-  /** list all entries in the queue (values with their priorities) */
+  /** returns a list all entries in the queue. */
   get entries(): QeweEntry<T>[] {
-    return this.queue;
+    return this._queue;
   }
 
-  /** get the amount of entries of the queue */
+  /** returns the amount of entries of the queue. */
   get size(): number {
-    return this.queue.length;
+    return this._queue.length;
   }
 
-  /** check if the queue is empty */
+  /** returns the maximum amount of entries that the queue can hold. */
+  get maxSize(): number {
+    return this._maxSize;
+  }
+
+  /** returns whether or not if the queue is empty. */
   get isEmpty(): boolean {
-    return this.queue.length === 0;
+    return this._queue.length === 0;
   }
 
-  /** add a new value to the queue */
+  /** returns the type (minimum or maximum) of the queue. */
+  get queueType(): QueueType {
+    return this._queueType;
+  }
+
+  /** add a new value to the queue. returns the new queue entry. */
   enqueue(value: T): QeweEntry<T>;
   enqueue(value: T, priority: number): QeweEntry<T>;
   enqueue(value: T, priority?: number): QeweEntry<T> {
-    const entryPriority = priority ?? this.inferValuePriority?.(value);
+    const entryPriority = priority ?? this._inferValuePriority?.(value);
 
     if (entryPriority === undefined) {
       throw new Error(
@@ -92,7 +98,7 @@ class Qewe<T> {
       );
     }
 
-    if (this.size === this.maxSize) {
+    if (this.size === this._maxSize) {
       throw new Error(`Cannot enqueue - the queue is already at its max size.`);
     }
 
@@ -101,11 +107,11 @@ class Qewe<T> {
       value,
     };
 
-    const priorityIndex = this.queue.findIndex((entry) => {
+    const priorityIndex = this._queue.findIndex((entry) => {
       // if this is a min queue we want to find the first entry in the queue
       // that has a priority higher than our new entry. if this is a max queue
       // then we want the opposite.
-      if (this.queueType === 'min') {
+      if (this._queueType === 'min') {
         return entry.priority > newEntry.priority;
       } else {
         return entry.priority < newEntry.priority;
@@ -113,9 +119,9 @@ class Qewe<T> {
     });
 
     if (priorityIndex > -1) {
-      this.queue.splice(priorityIndex, 0, newEntry);
+      this._queue.splice(priorityIndex, 0, newEntry);
     } else {
-      this.queue.push(newEntry);
+      this._queue.push(newEntry);
     }
 
     return newEntry;
@@ -123,7 +129,7 @@ class Qewe<T> {
 
   /** get the first entry in the queue and remove it from the queue */
   dequeue(): T {
-    const entry = this.queue.shift();
+    const entry = this._queue.shift();
 
     if (entry !== undefined) {
       return entry.value;
@@ -132,9 +138,9 @@ class Qewe<T> {
     }
   }
 
-  /** get the last entry in the queue and remove it from the queue */
+  /** removes the first entry from the queue and returns it. */
   dequeueEnd(): T {
-    const entry = this.queue.pop();
+    const entry = this._queue.pop();
 
     if (entry !== undefined) {
       return entry.value;
@@ -143,9 +149,9 @@ class Qewe<T> {
     }
   }
 
-  /** remove all entries from the queue and return them */
+  /** removes all entries from the queue and returns them. */
   clear(): QeweEntry<T>[] {
-    return this.queue.splice(0, this.queue.length);
+    return this._queue.splice(0, this._queue.length);
   }
 }
 
