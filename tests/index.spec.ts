@@ -49,7 +49,7 @@ describe('queue functionality', () => {
 });
 
 describe('min queue', () => {
-  const queue = new Qewe<string>({ isMinQueue: true });
+  const queue = new Qewe<string>({ minQueue: true });
 
   it('adds values in reverse priority order', () => {
     queue.enqueue('a', 1);
