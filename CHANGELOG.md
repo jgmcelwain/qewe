@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.4.0](https://github.com/jgmcelwain/qewe/compare/v0.3.3...v0.4.0) (2022-01-05)
+
+
+### Features
+
+* add error for unsuccessful dequeue/dequeueEnd ([1b92ef6](https://github.com/jgmcelwain/qewe/commit/1b92ef6cfe9ccb594e9c16899c7efa1b571ea764))
+* update documentation to reflect errors ([460c9c5](https://github.com/jgmcelwain/qewe/commit/460c9c5c0922325acfa1ece945f460e81ab798ae))
+
 ### [0.3.3](https://github.com/jgmcelwain/qewe/compare/v0.3.2...v0.3.3) (2022-01-04)
 
 
