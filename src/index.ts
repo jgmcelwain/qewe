@@ -59,7 +59,7 @@ class Qewe<T> {
     return this._queue[0]?.value;
   }
 
-  /** returns the final entry in the queue (without removing it, like dequeueEnd does). */
+  /** returns the last entry in the queue (without removing it, like dequeueEnd does). */
   get peekEnd(): T | undefined {
     return this._queue[this._queue.length - 1]?.value;
   }
@@ -144,7 +144,7 @@ class Qewe<T> {
     }
   }
 
-  /** removes the first entry from the queue and returns it. */
+  /** removes the last entry from the queue and returns it. */
   dequeueEnd(): T {
     const entry = this._queue.pop();
 
