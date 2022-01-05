@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.6.0](https://github.com/jgmcelwain/qewe/compare/v0.5.1...v0.6.0) (2022-01-05)
+
+
+### Features
+
+* add support for a maximum queue size ([7fec65d](https://github.com/jgmcelwain/qewe/commit/7fec65dab360d054143f95a3290ba1cf8d2b6819))
+* swap from boolean minQueue to queueType option ([8ab5c86](https://github.com/jgmcelwain/qewe/commit/8ab5c86949ff3b8890eca799b0a067bfc9801045))
+* update documentation that explains properties and methods ([e700a03](https://github.com/jgmcelwain/qewe/commit/e700a037a5b83f5cfced4a980f903ee8d37fb0a5))
+
+
+### Bug Fixes
+
+* **dev:** jest config file is node env ([c28b13c](https://github.com/jgmcelwain/qewe/commit/c28b13c2b0ba710e158940ff00e8e4a5d5267e1f))
+* put name in correct place ([297292b](https://github.com/jgmcelwain/qewe/commit/297292bad219f7788cd299d59e084d7983c049ba))
+
 ### [0.5.1](https://github.com/jgmcelwain/qewe/compare/v0.5.0...v0.5.1) (2022-01-05)
 
 
