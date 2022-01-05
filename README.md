@@ -1,4 +1,4 @@
-# qewe
+Q# qewe
 
 [![npm version](https://badge.fury.io/js/qewe.svg)](https://npmjs.com/package/qewe) [![tests status](https://github.com/jgmcelwain/qewe/actions/workflows/tests.yml/badge.svg)](https://github.com/jgmcelwain/qewe/actions/workflows/tests.yml) [![bundle size](https://img.shields.io/bundlephobia/min/qewe)](https://bundlephobia.com/package/qewe)
 
@@ -40,7 +40,8 @@ You can also import qewe with a script tag via [unpkg](https://unpkg.com):
 ```ts
 interface QeweOptions<T> {
   inferValuePriority?: (value: T) => number;
-  isMinQueue?: boolean;
+  minQueue?: boolean;
+  initialValues?: T[] | QeweEntry<T>[];
 }
 
 interface QeweEntry<T> {
@@ -56,7 +57,11 @@ You can customize a qewe instance by passing an `options` object to the construc
 ```ts
 const queue: new Qewe<{ x: number; y: number; mass: number }>({
   inferValuePriority: (value) => value.mass,
-  isMinQueue: true,
+  minQueue: true,
+  initialValues: [
+    { x: 1, y: 2, mass: 4 },
+    { x: 3, y: -3, mass: 1.5 }
+  ]
 });
 ```
 
@@ -66,11 +71,19 @@ const queue: new Qewe<{ x: number; y: number; mass: number }>({
 
   `inferValuePriority` is `undefined` by default, which means you always have to provide the priority when adding a value to the queue.
 
-- #### `isMinQueue: boolean`
+- #### `initialValues: T[] | QeweEntry<T>[]`
+
+  Provide an array of values or an array of values or `QeweEntry` objects to initialize the queue with. This uses `Qewe.prototype.enqueue` to add each value.
+
+  Note: if you provide an array of values you _must_ also have an `inferValuePriority` option so that the instance can infer the priority of each value.
+
+  `initialValues` is `undefined` by default.
+
+- #### `minQueue: boolean`
 
   Indicate that the instance should be a min-priority queue.
 
-  `isMinQueue` is `false` by default, resulting in a max-priority queue.
+  `minQueue` is `false` by default, resulting in a max-priority queue.
 
 ### Queue Behavior
 
