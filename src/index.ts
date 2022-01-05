@@ -1,11 +1,25 @@
-interface QeweOptions<T> {
-  inferValuePriority?: (value: T) => number;
-  isMinQueue?: boolean;
+type QeweOptions<T> = { minQueue?: boolean } & (
+  | QeweOptionsWithInfer<T>
+  | QeweOptionsNoInfer<T>
+);
+interface QeweOptionsNoInfer<T> {
+  inferValuePriority?: never;
+  initialValues?: QeweEntry<T>[];
+}
+interface QeweOptionsWithInfer<T> {
+  inferValuePriority: (value: T) => number;
+  initialValues?: T[] | QeweEntry<T>[];
 }
 
 interface QeweEntry<T> {
   value: T;
   priority: number;
+}
+
+function isQeweEntry<T>(entry: T | QeweEntry<T>): entry is QeweEntry<T> {
+  const { value, priority } = entry as QeweEntry<T>;
+
+  return value !== undefined && priority !== undefined;
 }
 
 class Qewe<T> {
@@ -15,7 +29,17 @@ class Qewe<T> {
 
   constructor(options?: QeweOptions<T>) {
     this.inferValuePriority = options?.inferValuePriority ?? null;
-    this.isMinQueue = !!options?.isMinQueue;
+    this.isMinQueue = !!options?.minQueue;
+
+    if (options?.initialValues !== undefined) {
+      for (const initialValue of options.initialValues) {
+        if (isQeweEntry(initialValue)) {
+          this.enqueue(initialValue.value, initialValue.priority);
+        } else {
+          this.enqueue(initialValue);
+        }
+      }
+    }
   }
 
   /** see the next entry in the queue without removing it */

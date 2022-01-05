@@ -49,7 +49,7 @@ describe('queue functionality', () => {
 });
 
 describe('min queue', () => {
-  const queue = new Qewe<string>({ isMinQueue: true });
+  const queue = new Qewe<string>({ minQueue: true });
 
   it('adds values in reverse priority order', () => {
     queue.enqueue('a', 1);
@@ -83,5 +83,29 @@ describe('inferred priority', () => {
     expect(queue.size).toBe(4);
     expect(queue.peek).toStrictEqual({ x: 3, y: 4, mass: 7 });
     expect(queue.peekEnd).toStrictEqual({ x: -3, y: 9, mass: 0.5 });
+  });
+});
+
+describe('initialize with entries', () => {
+  it('initializes with stated priority', () => {
+    const queue = new Qewe<{ x: number; y: number }>({
+      initialValues: [
+        { value: { x: 1, y: 1 }, priority: 1 },
+        { value: { x: 1, y: 1 }, priority: 3 },
+      ],
+    });
+
+    expect(queue.size).toBe(2);
+    expect(queue.peek).toStrictEqual({ x: 1, y: 1 });
+  });
+
+  it('initializes with inferred priority', () => {
+    const queue = new Qewe<string>({
+      inferValuePriority: (value) => value.length,
+      initialValues: ['hello', 'world', 'initializing', 'test'],
+    });
+
+    expect(queue.size).toBe(4);
+    expect(queue.peek).toBe('initializing');
   });
 });
