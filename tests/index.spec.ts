@@ -20,6 +20,12 @@ describe('queue functionality', () => {
     expect(queue.peekEnd).toBe('a');
   });
 
+  it('has an iterator', () => {
+    const values = [...queue];
+
+    expect(values).toEqual(['b', 'a']);
+  });
+
   it('removes an entry from the queue when popped', () => {
     const popped = queue.dequeue();
 
