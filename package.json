@@ -1,6 +1,6 @@
 {
   "name": "qewe",
-  "version": "0.6.4",
+  "version": "0.7.0",
   "description": "Opinionated, type-safe, zero-dependency max/min priority queue.",
   "repository": "https://github.com/jgmcelwain/qewe",
   "author": "Jamie McElwain <jmie@hey.com>",

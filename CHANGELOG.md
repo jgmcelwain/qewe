@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.7.0](https://github.com/jgmcelwain/qewe/compare/v0.6.4...v0.7.0) (2022-01-06)
+
+
+### Features
+
+* add contains method ([e323fcb](https://github.com/jgmcelwain/qewe/commit/e323fcbc4557906ef2d9b46c6f5828ccefcc5b45))
+* add remove method ([9e9e155](https://github.com/jgmcelwain/qewe/commit/9e9e1554b3d9aa8ead9c6de31ceaa029edb57853))
+* add Symbol.iterator (pointed at queue values) ([0f1fd17](https://github.com/jgmcelwain/qewe/commit/0f1fd1747c8b01763d9cc268505203803faf99d8))
+* document new methods ([1efc2d0](https://github.com/jgmcelwain/qewe/commit/1efc2d0dc2b4366c4690ec4f5c674ff3455be04f))
+* update description ([40d87a6](https://github.com/jgmcelwain/qewe/commit/40d87a6b6dc637ea8c09785519d5ba1b97eaf1ad))
+
+
+### Bug Fixes
+
+* correct ci status badge url ([547f90b](https://github.com/jgmcelwain/qewe/commit/547f90b2e2024cc03abaa9fe728e16a442e153c1))
+
 ### [0.6.4](https://github.com/jgmcelwain/qewe/compare/v0.6.3...v0.6.4) (2022-01-05)
 
 
