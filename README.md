@@ -191,3 +191,4 @@ All errors thrown by a Qewe instance are members of the `QeweError` enum, which 
 | `QeweError.NoPriorityValue`     | Cannot enqueue - no priority value, or function to infer an entry's priority value, was provided. |
 | `QeweError.MaxQueueSizeReached` | Cannot enqueue - the queue is already at its max size.                                            |
 | `QeweError.EmptyQueue`          | Cannot dequeue - the queue is empty.                                                              |
+| `QeweError.NotFound`            | Cannot remove - the value was not found in the queue.                                             |
