@@ -104,6 +104,11 @@ class Qewe<T> {
     return this.values[Symbol.iterator]();
   }
 
+  /** check to see if a certain value exists in the queue */
+  contains(value: T): boolean {
+    return this._queue.some((entry) => Object.is(entry.value, value));
+  }
+
   /** add a new value to the queue. returns the new queue entry. */
   enqueue(value: T, priority?: number): QeweEntry<T> {
     const entryPriority = priority ?? this._inferValuePriority?.(value);

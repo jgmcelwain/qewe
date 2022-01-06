@@ -20,6 +20,12 @@ describe('queue functionality', () => {
     expect(queue.peekEnd).toBe('a');
   });
 
+  it('can be searched for specific values', () => {
+    expect(queue.contains('a')).toBe(true);
+    expect(queue.contains('b')).toBe(true);
+    expect(queue.contains('c')).toBe(false);
+  });
+
   it('has an iterator', () => {
     const values = [...queue];
 
