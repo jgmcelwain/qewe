@@ -105,7 +105,7 @@ class Qewe<T> {
     return this.values[Symbol.iterator]();
   }
 
-  /** check to see if a certain value exists in the queue */
+  /** check to see if a certain value exists in the queue. */
   contains(value: T): boolean {
     return this._queue.some((entry) => Object.is(entry.value, value));
   }
@@ -147,7 +147,7 @@ class Qewe<T> {
     return newEntry;
   }
 
-  /** get the first entry in the queue and remove it from the queue */
+  /** get the first entry in the queue and remove it from the queue. */
   dequeue(): T {
     const entry = this._queue.shift();
 

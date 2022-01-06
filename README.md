@@ -156,6 +156,12 @@ Qewe.prototype.queueType: QueueType;
 ### Instance Methods
 
 ```ts
+// iterator that yields all values in the queue.
+Qewe.prototype[Symbol.Iterator](): T[];
+
+// returns whether or not the queue contains a given value.
+Qewe.prototype.contains(value: T): boolean;
+
 // add a new value to the queue. returns the new queue entry.
 Qewe.prototype.enqueue(value: T, priority: number): QeweEntry<T>;
 
@@ -168,6 +174,9 @@ Qewe.prototype.dequeue(): T;
 
 // removes the last entry from the queue and returns it.
 Qewe.prototype.dequeueEnd(): T;
+
+// removes a specified value from the queue and returns it.
+Qewe.prototype.remove(value: T): QeweEntry<T>;
 
 // removes all entries from the queue and returns them.
 Qewe.prototype.clear(): QeweEntry<T>[];
