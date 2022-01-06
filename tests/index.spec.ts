@@ -26,6 +26,15 @@ describe('queue functionality', () => {
     expect(queue.contains('c')).toBe(false);
   });
 
+  it('removes a given value', () => {
+    queue.enqueue('c', 3);
+    expect(queue.size).toBe(3);
+
+    const removed = queue.remove('c');
+    expect(removed).toStrictEqual({ value: 'c', priority: 3 });
+    expect(queue.size).toBe(2);
+  });
+
   it('has an iterator', () => {
     const values = [...queue];
 

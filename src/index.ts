@@ -22,6 +22,7 @@ enum QeweErrors {
   NoPriorityValue = "Cannot enqueue - no priority value, or function to infer an entry's priority value, was provided.",
   MaxQueueSizeReached = 'Cannot enqueue - the queue is already at its max size.',
   EmptyQueue = 'Cannot dequeue - the queue is empty.',
+  NotFound = 'Cannot remove - the value was not found in the queue.',
 }
 
 class Qewe<T> {
@@ -165,6 +166,19 @@ class Qewe<T> {
       return entry.value;
     } else {
       throw new Error(QeweErrors.EmptyQueue);
+    }
+  }
+
+  /** removes a specified value from the queue and returns it. */
+  remove(value: T): QeweEntry<T> {
+    const index = this._queue.findIndex((entry) =>
+      Object.is(entry.value, value),
+    );
+
+    if (index > -1) {
+      return this._queue.splice(index, 1)[0];
+    } else {
+      throw new Error(QeweErrors.NotFound);
     }
   }
 
