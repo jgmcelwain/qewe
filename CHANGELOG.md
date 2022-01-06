@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.7.1](https://github.com/jgmcelwain/qewe/compare/v0.7.0...v0.7.1) (2022-01-06)
+
+
+### Bug Fixes
+
+* add NotFound error to README ([cf42fac](https://github.com/jgmcelwain/qewe/commit/cf42fac985a8585a100ed740423ae2ccad6cdad2))
+
 ## [0.7.0](https://github.com/jgmcelwain/qewe/compare/v0.6.4...v0.7.0) (2022-01-06)
 
 
