@@ -125,8 +125,7 @@ class Qewe<T> {
 
   /** add a new entry to the queue. returns the new queue entry. */
   enqueue(entry: QeweEntry<T>): QeweEntry<T>;
-  enqueue(value: T): QeweEntry<T>;
-  enqueue(value: T, priority: number): QeweEntry<T>;
+  enqueue(value: T, priority?: number): QeweEntry<T>;
   enqueue(value: T | QeweEntry<T>, priority?: number): QeweEntry<T> {
     if (this.size === this._maxSize) {
       throw new Error(QeweErrors.MaxQueueSizeReached);
