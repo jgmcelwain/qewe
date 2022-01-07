@@ -146,7 +146,7 @@ Qewe.prototype.size: number;
 // returns the maximum amount of entries that the queue can hold.
 Qewe.prototype.maxSize: number;
 
-// returns whether or not if the queue is empty.
+// returns whether or not the queue is empty.
 Qewe.prototype.isEmpty: boolean;
 
 // returns the type (minimum or maximum) of the queue.

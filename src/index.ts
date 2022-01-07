@@ -91,7 +91,7 @@ class Qewe<T> {
     return this._maxSize;
   }
 
-  /** returns whether or not if the queue is empty. */
+  /** returns whether or not the queue is empty. */
   get isEmpty(): boolean {
     return this._queue.length === 0;
   }
