@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.7.2](https://github.com/jgmcelwain/qewe/compare/v0.7.1...v0.7.2) (2022-01-07)
+
+
+### Features
+
+* **tests:** improved code coverage ([6d097b8](https://github.com/jgmcelwain/qewe/commit/6d097b8d2b35b9e196897aa7bd64a7a414e422a1))
+
+
+### Bug Fixes
+
+* isEmpty property description ([7dd7c3b](https://github.com/jgmcelwain/qewe/commit/7dd7c3b07c6ef091eb068cd37e8af347ad7b94e9))
+
 ### [0.7.1](https://github.com/jgmcelwain/qewe/compare/v0.7.0...v0.7.1) (2022-01-06)
 
 
