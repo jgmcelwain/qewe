@@ -4,21 +4,6 @@
 
 qewe is an opinionated, type-safe, zero-dependency max/min priority queue for JavaScript and TypeScript projects.
 
-```ts
-import { Qewe } from 'qewe';
-
-const queue = new Qewe();
-queue.enqueue('hello', 1);
-queue.enqueue('world', 2);
-
-console.log(queue.values); // [ 'world', 'hello' ]
-console.log(queue.size); // 2
-
-const value = queue.dequeue();
-console.log(value); // 'world'
-console.log(queue.size); // 1
-```
-
 ## Installation
 
 Add qewe to your project using your favorite package manager:
@@ -35,29 +20,97 @@ You can also import qewe with a script tag via [unpkg](https://unpkg.com):
 
 ## Usage
 
-### Types
+```ts
+import { Qewe } from 'qewe';
+
+const queue = new Qewe();
+const entry = new QeweEntry('world', 2);
+
+queue.enqueue('hello', 1);
+queue.enqueue(entry);
+
+console.log(queue.values); // [ 'world', 'hello' ]
+console.log(queue.size); // 2
+
+const value = queue.dequeue();
+console.log(value); // 'world'
+console.log(queue.size); // 1
+```
+
+### `QeweEntry<T>` & Enqueueing
+
+A Qewe instance's queue is a list of `QeweEntry` instances. Each entry has a `value` and a `priority`:
+
+```ts
+const entry = new QeweEntry('my-value', 1);
+console.log(entry); // { value: 'my-value', priority: 1 }
+
+const queue = new Qewe();
+queue.enqueue(entry);
+console.log(queue.entries); // [ { value: 'my-value', priority: 1 } ]
+```
+
+The `enqueue` method of a Qewe instance also takes `value` and `priority` arguments, which will create a new `QeweEntry` instance and add it to the queue.
+
+```ts
+const queue = new Qewe();
+queue.enqueue('my-value', 1);
+console.log(queue.entries); // [ { value: 'my-value', priority: 1 } ]
+```
+
+If the priority of an entry can be inferred when enqueue is called then you can omit the `priority` argument and instead pass an `inferValuePriority` function to the constructor:
+
+```ts
+const queue = new Qewe<string>({ inferValuePriority: (value) => value.length });
+queue.enqueue('hello');
+queue.enqueue('qewe');
+console.log(queue.entries); // [ { value: 'hello', priority: 5 }, { value: 'qewe', priority: 4 } ]
+```
+
+### Queue Behavior
+
+Instances which have an empty queue will throw an error when a `dequeue` or `dequeueEnd` is attempted. It is recommended that you expect this error and handle it accordingly:
+
+```ts
+const queue = new Qewe();
+
+try {
+  const value = queue.dequeue();
+} catch {
+  // queue is empty - do something else
+}
+```
+
+Alternatively, you can check if the queue is empty _before_ you attempt to dequeue:
+
+```ts
+const queue = new Qewe();
+
+if (!queue.isEmpty) {
+  const value = queue.dequeue();
+} else {
+  // queue is empty - do something else
+}
+```
+
+The `peek` and `peekEnd` properties of an instance do _not_ throw an error when the queue is empty. Instead, they return `undefined`.
+
+## API
+
+### Constructor Options
+
+You can customize a Qewe instance by passing a `QeweOptions` object to the constructor:
 
 ```ts
 type QueueType = 'min' | 'max';
-
 interface QeweOptions<T> {
   queueType?: QueueType;
   maximumQueueSize?: number;
   inferValuePriority?: (value: T) => number;
-  initialValues?: T[] | QeweEntry<T>[];
+  initialEntries?: QeweEntry<T>[];
+  initialValues?: T[];
 }
 
-interface QeweEntry<T> {
-  value: T;
-  priority: number;
-}
-```
-
-### Options
-
-You can customize a qewe instance by passing an `options` object to the constructor.
-
-```ts
 const queue: new Qewe<{ x: number; y: number; mass: number }>({
   queueType: 'min',
   maximumQueueSize: 4,
@@ -85,45 +138,19 @@ const queue: new Qewe<{ x: number; y: number; mass: number }>({
 
   Define a function that will be used to infer the priority of a value when it is added to the queue. This can be useful when the priority is something that can be derived from the value itself.
 
+  This function is only used by `enqueue` if a `priority` argument is not provided and the `value` argument is not an instance of `QeweEntry`.
+
   `inferValuePriority` is `undefined` by default, which means you always have to provide the priority when adding a value to the queue.
+
+- #### `initialEntries: QeweEntry<T>`
+
+  Specify an array of `QeweEntry` instances to initialize the instance's priority queue. This uses `Qewe.prototype.enqueue` to add each entry.
 
 - #### `initialValues: T[] | QeweEntry<T>[]`
 
-  Provide an array of values or an array of values or `QeweEntry` objects to initialize the queue with. This uses `Qewe.prototype.enqueue` to add each value.
+  Provide an array of values to initialize the queue with. This uses `Qewe.prototype.enqueue` to add each value.
 
-  Note: if you provide an array of values you _must_ also have an `inferValuePriority` option so that the instance can infer the priority of each value.
-
-  `initialValues` is `undefined` by default.
-
-### Queue Behavior
-
-Instances which have an empty queue will throw an error when `dequeue` or `dequeueEnd` are called. It is recommended that you expect this error and handle it accordingly:
-
-```ts
-const queue = new Qewe();
-
-try {
-  const value = queue.dequeue();
-} catch {
-  // queue is empty - do something else
-}
-```
-
-Alternatively, you can check if the queue is empty _before_ you attempt to dequeue:
-
-```ts
-const queue = new Qewe();
-
-if (!queue.isEmpty) {
-  const value = queue.dequeue();
-} else {
-  // queue is empty - do something else
-}
-```
-
-The `peek` and `peekEnd` properties of an instance do _not_ throw an error when the queue is empty. Instead, they return `undefined`.
-
-## API
+  Note: The instance must also have an `inferValuePriority` function so that it can infer the priority of each value. If you cannot provide an `inferValuePriority` function you should instead use the `initialEntries` option to initialize the queue.
 
 ### Instance Properties
 
@@ -162,8 +189,12 @@ Qewe.prototype[Symbol.Iterator](): T[];
 // returns whether or not the queue contains a given value.
 Qewe.prototype.contains(value: T): boolean;
 
-// add a new value to the queue. returns the new queue entry.
-Qewe.prototype.enqueue(value: T, priority: number): QeweEntry<T>;
+// create a new entry which can be passed to `enqueue`. returns the entry.
+Qewe.prototype.createEntry(value: T, priority?: number): QeweEntry<T>;
+
+// add a new entry to the queue. returns the new queue entry.
+Qewe.prototype.enqueue(entry: QeweEntry<T>): QeweEntry<T>;
+Qewe.prototype.enqueue(value: T, priority?: number): QeweEntry<T>;
 
 // add a new value to the queue, inferring its priority. returns the new queue entry.
 // NOTE: this is only available when `options.inferValuePriority` is defined.
