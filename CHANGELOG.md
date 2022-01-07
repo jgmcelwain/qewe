@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0-beta.0](https://github.com/jgmcelwain/qewe/compare/v0.7.2...v1.0.0-beta.0) (2022-01-07)
+
+
+### Features
+
+* add QeweEntry ([50354f7](https://github.com/jgmcelwain/qewe/commit/50354f7efcd707eb70c815a7e8e1e4010fd3b04b))
+
+
+### Bug Fixes
+
+* correct enqueue method description ([a3d3bb1](https://github.com/jgmcelwain/qewe/commit/a3d3bb1372fffa295277de75fe749723ef292b80))
+* remove unnecessary optional chaining ([e32788b](https://github.com/jgmcelwain/qewe/commit/e32788b0749138ba9e1e364b8c26b5d9276a13b1))
+
 ### [0.7.2](https://github.com/jgmcelwain/qewe/compare/v0.7.1...v0.7.2) (2022-01-07)
 
 
