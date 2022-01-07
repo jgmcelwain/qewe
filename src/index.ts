@@ -39,15 +39,15 @@ class Qewe<T> {
 
   constructor(options?: QeweOptions<T>) {
     if (options?.inferValuePriority !== undefined) {
-      this._inferValuePriority = options?.inferValuePriority;
+      this._inferValuePriority = options.inferValuePriority;
     }
 
     if (options?.queueType !== undefined) {
-      this._queueType = options?.queueType;
+      this._queueType = options.queueType;
     }
 
     if (options?.maximumQueueSize !== undefined) {
-      this._maxSize = options?.maximumQueueSize;
+      this._maxSize = options.maximumQueueSize;
     }
 
     if (options?.initialValues !== undefined) {
