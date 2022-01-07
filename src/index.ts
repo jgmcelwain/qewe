@@ -1,21 +1,17 @@
 type QueueType = 'min' | 'max';
 
-type QeweOptions<T> = { queueType?: QueueType; maximumQueueSize?: number } & (
-  | QeweOptionsWithInfer<T>
-  | QeweOptionsNoInfer<T>
-);
-interface QeweOptionsNoInfer<T> {
+type QeweOptions<T> = {
+  queueType?: QueueType;
+  maximumQueueSize?: number;
+  initialEntries?: QeweEntry<T>[];
+} & (QeweOptionsWithInfer<T> | QeweOptionsNoInfer);
+interface QeweOptionsNoInfer {
   inferValuePriority?: never;
-  initialValues?: QeweEntry<T>[];
+  initialValues?: never;
 }
 interface QeweOptionsWithInfer<T> {
   inferValuePriority: (value: T) => number;
-  initialValues?: T[] | QeweEntry<T>[];
-}
-
-interface QeweEntry<T> {
-  value: T;
-  priority: number;
+  initialValues?: T[];
 }
 
 enum QeweErrors {
@@ -25,17 +21,21 @@ enum QeweErrors {
   NotFound = 'Cannot remove - the value was not found in the queue.',
 }
 
+class QeweEntry<T> {
+  public value: T;
+  public priority: number;
+
+  constructor(value: T, priority: number) {
+    this.value = value;
+    this.priority = priority;
+  }
+}
+
 class Qewe<T> {
   protected _queue: QeweEntry<T>[] = [];
   protected _inferValuePriority: ((value: T) => number) | null = null;
   protected _queueType: QueueType = 'max';
   protected _maxSize = Infinity;
-
-  protected _isQeweEntry<T>(entry: T | QeweEntry<T>): entry is QeweEntry<T> {
-    const { value, priority } = entry as QeweEntry<T>;
-
-    return value !== undefined && priority !== undefined;
-  }
 
   constructor(options?: QeweOptions<T>) {
     if (options?.inferValuePriority !== undefined) {
@@ -50,13 +50,15 @@ class Qewe<T> {
       this._maxSize = options.maximumQueueSize;
     }
 
+    if (options?.initialEntries !== undefined) {
+      for (const initialEntry of options.initialEntries) {
+        this.enqueue(initialEntry);
+      }
+    }
+
     if (options?.initialValues !== undefined) {
       for (const initialValue of options.initialValues) {
-        if (this._isQeweEntry(initialValue)) {
-          this.enqueue(initialValue.value, initialValue.priority);
-        } else {
-          this.enqueue(initialValue);
-        }
+        this.enqueue(initialValue);
       }
     }
   }
@@ -110,22 +112,32 @@ class Qewe<T> {
     return this._queue.some((entry) => Object.is(entry.value, value));
   }
 
-  /** add a new value to the queue. returns the new queue entry. */
-  enqueue(value: T, priority?: number): QeweEntry<T> {
+  /** create a new entry which can be passed to `enqueue`. returns the entry. */
+  createEntry(value: T, priority?: number): QeweEntry<T> {
     const entryPriority = priority ?? this._inferValuePriority?.(value);
 
     if (entryPriority === undefined) {
       throw new Error(QeweErrors.NoPriorityValue);
     }
 
+    return new QeweEntry(value, entryPriority);
+  }
+
+  /** add a new value to the queue. returns the new queue entry. */
+  enqueue(entry: QeweEntry<T>): QeweEntry<T>;
+  enqueue(value: T): QeweEntry<T>;
+  enqueue(value: T, priority: number): QeweEntry<T>;
+  enqueue(value: T | QeweEntry<T>, priority?: number): QeweEntry<T> {
     if (this.size === this._maxSize) {
       throw new Error(QeweErrors.MaxQueueSizeReached);
     }
 
-    const newEntry: QeweEntry<T> = {
-      priority: entryPriority,
-      value,
-    };
+    let newEntry: QeweEntry<T>;
+    if (value instanceof QeweEntry) {
+      newEntry = value;
+    } else {
+      newEntry = this.createEntry(value, priority);
+    }
 
     const priorityIndex = this._queue.findIndex((entry) => {
       // if this is a min queue we want to find the first entry in the queue
