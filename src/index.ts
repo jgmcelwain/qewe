@@ -123,7 +123,7 @@ class Qewe<T> {
     return new QeweEntry(value, entryPriority);
   }
 
-  /** add a new value to the queue. returns the new queue entry. */
+  /** add a new entry to the queue. returns the new queue entry. */
   enqueue(entry: QeweEntry<T>): QeweEntry<T>;
   enqueue(value: T): QeweEntry<T>;
   enqueue(value: T, priority: number): QeweEntry<T>;
