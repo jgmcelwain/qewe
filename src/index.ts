@@ -158,7 +158,7 @@ class Qewe<T> {
     return newEntry;
   }
 
-  /** get the first entry in the queue and remove it from the queue. */
+  /** removes the first entry from the queue and returns it. */
   dequeue(): T {
     const entry = this._queue.shift();
 
