@@ -104,22 +104,22 @@ class Qewe<T> {
   dequeue(): T {
     const entry = this.queue.shift();
 
-    if (entry !== undefined) {
-      return entry.value;
-    } else {
+    if (entry === undefined) {
       throw new Error(QeweErrors.EmptyQueue);
     }
+
+    return entry.value;
   }
 
   /** removes the last entry from the queue and returns its value. */
   dequeueEnd(): T {
     const entry = this.queue.pop();
 
-    if (entry !== undefined) {
-      return entry.value;
-    } else {
+    if (entry === undefined) {
       throw new Error(QeweErrors.EmptyQueue);
     }
+
+    return entry.value;
   }
 
   /** returns a generator that yields the queue's entries */
@@ -187,11 +187,11 @@ class Qewe<T> {
       Object.is(entry.value, value),
     );
 
-    if (index > -1) {
-      return this.queue.splice(index, 1)[0];
-    } else {
+    if (index === -1) {
       throw new Error(QeweErrors.NotFound);
     }
+
+    return this.queue.splice(index, 1)[0];
   }
 
   /** returns a generator that yields the queue's values */
