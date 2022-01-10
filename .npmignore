@@ -9,3 +9,4 @@ jest.config.js
 tsconfig.json
 yarn-error.log
 CHANGELOG.md
+coverage
