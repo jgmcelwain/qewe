@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0-beta.5](https://github.com/jgmcelwain/qewe/compare/v1.0.0-beta.4...v1.0.0-beta.5) (2022-01-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* `maximumQueueSize` option is now `maxSize`
+
+* public instance properties instead of protected exposed with getters ([bfbad7a](https://github.com/jgmcelwain/qewe/commit/bfbad7a72dc52b1d3427262d8bcc8815c80a7827))
+
 ## [1.0.0-beta.4](https://github.com/jgmcelwain/qewe/compare/v1.0.0-beta.3...v1.0.0-beta.4) (2022-01-10)
 
 
