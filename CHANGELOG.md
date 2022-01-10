@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0-beta.2](https://github.com/jgmcelwain/qewe/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2022-01-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* `isEmpty`, `peek` and `peekEnd` are now methods, `entries` and `values` are now generator methods,
+
+### Features
+
+* new properties/methods ([94f3f53](https://github.com/jgmcelwain/qewe/commit/94f3f5384c5f56250bb394fb73aaf78a3f313a7d))
+
 ## [1.0.0-beta.1](https://github.com/jgmcelwain/qewe/compare/v1.0.0-beta.0...v1.0.0-beta.1) (2022-01-09)
 
 
