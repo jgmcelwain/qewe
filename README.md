@@ -194,11 +194,10 @@ Qewe.prototype.isEmpty(): boolean;
 // create a new entry which can be passed to `enqueue`. returns the entry.
 Qewe.prototype.createEntry(value: T, priority?: number): QeweEntry<T>;
 
-// add a new entry to the queue. returns the new queue entry.
-Qewe.prototype.enqueue(entry: QeweEntry<T>): QeweEntry<T>;
-
 // add a new value to the queue. returns the new queue entry.
-// NOTE: the priority argument is only optional when when `options.inferValuePriority` is defined for the instance.
+// NOTE: if you are using the value/priority signature then the priority argument
+// is only optional when when `options.inferValuePriority` is defined for the instance.
+Qewe.prototype.enqueue(entry: QeweEntry<T>): QeweEntry<T>;
 Qewe.prototype.enqueue(value: T, priority?: number): QeweEntry<T>;
 
 // returns the first value in the queue (without removing its entry, like dequeue does).
