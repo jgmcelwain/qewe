@@ -42,10 +42,11 @@ console.log(queue.size); // 1
 A Qewe instance's queue is a list of `QeweEntry` instances. Each entry has a `value` and a `priority`:
 
 ```ts
+const myQueue = new Qewe();
+
 const entry = new QeweEntry('my-value', 1);
 console.log(entry); // QeweEntry { value: 'my-value', priority: 1 }
 
-const myQueue = new Qewe();
 myQueue.enqueue(entry);
 console.log(myQueue.queue); // [ QeweEntry { value: 'my-value', priority: 1 } ]
 ```
@@ -54,6 +55,7 @@ The `enqueue` method of a Qewe instance also takes `value` and `priority` argume
 
 ```ts
 const myQueue = new Qewe();
+
 myQueue.enqueue('my-value', 1);
 console.log(myQueue.queue); // [ QeweEntry { value: 'my-value', priority: 1 } ]
 ```
@@ -64,6 +66,7 @@ If the priority of an entry can be inferred when enqueue is called then you can 
 const myQueue = new Qewe<string>({
   inferValuePriority: (value) => value.length,
 });
+
 myQueue.enqueue('hello');
 myQueue.enqueue('qewe');
 console.log(myQueue.queue); // [ QeweEntry { value: 'hello', priority: 5 }, QeweEntry { value: 'qewe', priority: 4 } ]
@@ -88,7 +91,7 @@ Alternatively, you can check if the queue is empty _before_ you attempt to deque
 ```ts
 const queue = new Qewe();
 
-if (!queue.isEmpty) {
+if (!queue.isEmpty()) {
   const value = queue.dequeue();
 } else {
   // queue is empty - do something else
@@ -194,24 +197,23 @@ Qewe.prototype.createEntry(value: T, priority?: number): QeweEntry<T>;
 // add a new entry to the queue. returns the new queue entry.
 Qewe.prototype.enqueue(entry: QeweEntry<T>): QeweEntry<T>;
 
-// add a new value to the queue.
-// NOTE: the priority argument is only optional when when
-// `options.inferValuePriority` is defined for the instance.
+// add a new value to the queue. returns the new queue entry.
+// NOTE: the priority argument is only optional when when `options.inferValuePriority` is defined for the instance.
 Qewe.prototype.enqueue(value: T, priority?: number): QeweEntry<T>;
 
-// returns the next entry in the queue (without removing it, like dequeue does).
+// returns the first value in the queue (without removing its entry, like dequeue does).
 Qewe.prototype.peek(): T | undefined;
 
-// returns the final entry in the queue (without removing it, like dequeueEnd does).
+// returns the last value in the queue (without removing its entry, like dequeueEnd does).
 Qewe.prototype.peekEnd(): T | undefined;
 
-// removes the first entry from the queue and returns it.
+// removes the first entry from the queue and returns its value.
 Qewe.prototype.dequeue(): T;
 
-// removes the last entry from the queue and returns it.
+// removes the last entry from the queue and returns its value.
 Qewe.prototype.dequeueEnd(): T;
 
-// removes a specified value from the queue and returns it.
+// removes a specified value from the queue and returns its entry.
 Qewe.prototype.remove(value: T): QeweEntry<T>;
 
 // removes all entries from the queue and returns them.

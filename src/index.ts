@@ -68,7 +68,7 @@ class Qewe<T> {
     return this._maxSize;
   }
 
-  /** returns the queue in its current state */
+  /** returns the queue in its current state. */
   get queue(): QeweEntry<T>[] {
     return this._queue;
   }
@@ -108,7 +108,7 @@ class Qewe<T> {
     return new QeweEntry(value, entryPriority);
   }
 
-  /** removes the first entry from the queue and returns it. */
+  /** removes the first entry from the queue and returns its value. */
   dequeue(): T {
     const entry = this._queue.shift();
 
@@ -119,7 +119,7 @@ class Qewe<T> {
     }
   }
 
-  /** removes the last entry from the queue and returns it. */
+  /** removes the last entry from the queue and returns its value. */
   dequeueEnd(): T {
     const entry = this._queue.pop();
 
@@ -179,12 +179,12 @@ class Qewe<T> {
     return this._queue.length === 0;
   }
 
-  /** returns the next entry in the queue. */
+  /** returns the first value in the queue. */
   peek(): T | undefined {
     return this._queue[0]?.value;
   }
 
-  /** returns the last entry in the queue. */
+  /** returns the last value in the queue. */
   peekEnd(): T | undefined {
     return this._queue[this._queue.length - 1]?.value;
   }
@@ -213,7 +213,3 @@ class Qewe<T> {
 }
 
 export { Qewe, QeweEntry, QeweOptions, QeweErrors };
-
-const queue = new Qewe();
-queue.enqueue('hello', 1);
-console.log(queue.queue);
