@@ -63,39 +63,14 @@ class Qewe<T> {
     }
   }
 
-  /** returns the next entry in the queue (without removing it, like dequeue does). */
-  get peek(): T | undefined {
-    return this._queue[0]?.value;
-  }
-
-  /** returns the last entry in the queue (without removing it, like dequeueEnd does). */
-  get peekEnd(): T | undefined {
-    return this._queue[this._queue.length - 1]?.value;
-  }
-
-  /** returns a list all values in the queue. */
-  get values(): T[] {
-    return this._queue.map((entry) => entry.value);
-  }
-
-  /** returns a list all entries in the queue. */
-  get entries(): QeweEntry<T>[] {
-    return this._queue;
-  }
-
-  /** returns the amount of entries of the queue. */
-  get size(): number {
-    return this._queue.length;
-  }
-
   /** returns the maximum amount of entries that the queue can hold. */
   get maxSize(): number {
     return this._maxSize;
   }
 
-  /** returns whether or not the queue is empty. */
-  get isEmpty(): boolean {
-    return this._queue.length === 0;
+  /** returns the queue in its current state */
+  get queue(): QeweEntry<T>[] {
+    return this._queue;
   }
 
   /** returns the type (minimum or maximum) of the queue. */
@@ -103,8 +78,18 @@ class Qewe<T> {
     return this._queueType;
   }
 
+  /** returns the amount of entries of the queue. */
+  get size(): number {
+    return this._queue.length;
+  }
+
   [Symbol.iterator]() {
-    return this.values[Symbol.iterator]();
+    return this.values();
+  }
+
+  /** removes all entries from the queue and returns them. */
+  clear(): QeweEntry<T>[] {
+    return this._queue.splice(0, this._queue.length);
   }
 
   /** check to see if a certain value exists in the queue. */
@@ -121,6 +106,37 @@ class Qewe<T> {
     }
 
     return new QeweEntry(value, entryPriority);
+  }
+
+  /** removes the first entry from the queue and returns it. */
+  dequeue(): T {
+    const entry = this._queue.shift();
+
+    if (entry !== undefined) {
+      return entry.value;
+    } else {
+      throw new Error(QeweErrors.EmptyQueue);
+    }
+  }
+
+  /** removes the last entry from the queue and returns it. */
+  dequeueEnd(): T {
+    const entry = this._queue.pop();
+
+    if (entry !== undefined) {
+      return entry.value;
+    } else {
+      throw new Error(QeweErrors.EmptyQueue);
+    }
+  }
+
+  /** returns a generator that yields the queue's entries */
+  *entries(): Generator<QeweEntry<T>> {
+    const queueEntries = this.queue;
+
+    for (const entry of queueEntries) {
+      yield entry;
+    }
   }
 
   /** add a new entry to the queue. returns the new queue entry. */
@@ -158,26 +174,19 @@ class Qewe<T> {
     return newEntry;
   }
 
-  /** removes the first entry from the queue and returns it. */
-  dequeue(): T {
-    const entry = this._queue.shift();
-
-    if (entry !== undefined) {
-      return entry.value;
-    } else {
-      throw new Error(QeweErrors.EmptyQueue);
-    }
+  /** returns whether or not the queue is empty. */
+  isEmpty(): boolean {
+    return this._queue.length === 0;
   }
 
-  /** removes the last entry from the queue and returns it. */
-  dequeueEnd(): T {
-    const entry = this._queue.pop();
+  /** returns the next entry in the queue. */
+  peek(): T | undefined {
+    return this._queue[0]?.value;
+  }
 
-    if (entry !== undefined) {
-      return entry.value;
-    } else {
-      throw new Error(QeweErrors.EmptyQueue);
-    }
+  /** returns the last entry in the queue. */
+  peekEnd(): T | undefined {
+    return this._queue[this._queue.length - 1]?.value;
   }
 
   /** removes a specified value from the queue and returns it. */
@@ -193,10 +202,18 @@ class Qewe<T> {
     }
   }
 
-  /** removes all entries from the queue and returns them. */
-  clear(): QeweEntry<T>[] {
-    return this._queue.splice(0, this._queue.length);
+  /** returns a generator that yields the queue's values */
+  *values() {
+    const queueValues: T[] = this._queue.map((entry) => entry.value);
+
+    for (const value of queueValues) {
+      yield value;
+    }
   }
 }
 
 export { Qewe, QeweEntry, QeweOptions, QeweErrors };
+
+const queue = new Qewe();
+queue.enqueue('hello', 1);
+console.log(queue.queue);

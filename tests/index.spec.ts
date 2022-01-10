@@ -20,16 +20,16 @@ describe('Qewe', () => {
         queue.enqueue('b', 2);
 
         expect(queue.size).toBe(2);
-        expect(queue.peek).toBe('a');
-        expect(queue.peekEnd).toBe('b');
+        expect(queue.peek()).toBe('a');
+        expect(queue.peekEnd()).toBe('b');
       });
 
       it('removes values in reverse priority order', () => {
-        const popped = queue.dequeue();
+        const dequeued = queue.dequeue();
 
         expect(queue.size).toBe(1);
-        expect(queue.peek).toBe('b');
-        expect(popped).toBe('a');
+        expect(queue.peek()).toBe('b');
+        expect(dequeued).toBe('a');
       });
     });
 
@@ -45,8 +45,8 @@ describe('Qewe', () => {
         queue.enqueue({ x: -3, y: 9, mass: 0.5 });
 
         expect(queue.size).toBe(4);
-        expect(queue.peek).toEqual({ x: 3, y: 4, mass: 7 });
-        expect(queue.peekEnd).toEqual({ x: -3, y: 9, mass: 0.5 });
+        expect(queue.peek()).toEqual({ x: 3, y: 4, mass: 7 });
+        expect(queue.peekEnd()).toEqual({ x: -3, y: 9, mass: 0.5 });
       });
     });
 
@@ -74,7 +74,7 @@ describe('Qewe', () => {
         });
 
         expect(queue.size).toBe(2);
-        expect(queue.peek).toEqual({ x: 1, y: 1 });
+        expect(queue.peek()).toEqual({ x: 1, y: 1 });
       });
 
       it('initializes with inferred priority', () => {
@@ -84,7 +84,7 @@ describe('Qewe', () => {
         });
 
         expect(queue.size).toBe(4);
-        expect(queue.peek).toBe('initializing');
+        expect(queue.peek()).toBe('initializing');
       });
     });
   });
@@ -99,9 +99,9 @@ describe('Qewe', () => {
       });
 
       it('should be empty', () => {
-        expect(queue.isEmpty).toBe(true);
-        expect(queue.peek).toBe(undefined);
-        expect(queue.peekEnd).toBe(undefined);
+        expect(queue.isEmpty()).toBe(true);
+        expect(queue.peek()).toBe(undefined);
+        expect(queue.peekEnd()).toBe(undefined);
       });
     });
 
@@ -109,15 +109,15 @@ describe('Qewe', () => {
       it('inserts a value', () => {
         queue.enqueue(new QeweEntry('a', 1));
 
-        expect(queue.peek).toBe('a');
-        expect(queue.entries[0]).toBeInstanceOf(QeweEntry);
+        expect(queue.peek()).toBe('a');
+        expect(queue.queue[0]).toBeInstanceOf(QeweEntry);
       });
 
       it('inserts a higher priority entry in the first position', () => {
         queue.enqueue('b', 2);
 
-        expect(queue.peek).toBe('b');
-        expect(queue.peekEnd).toBe('a');
+        expect(queue.peek()).toBe('b');
+        expect(queue.peekEnd()).toBe('a');
       });
     });
 
@@ -128,15 +128,22 @@ describe('Qewe', () => {
         expect(values).toEqual(['b', 'a']);
       });
 
-      it('can list its values', () => {
-        expect(queue.values).toEqual(['b', 'a']);
+      it('has a "values" iterator', () => {
+        const values = [...queue.values()];
+
+        expect(values).toEqual(['b', 'a']);
       });
 
-      it('can list its entries', () => {
-        expect(queue.entries).toEqual([
-          { value: 'b', priority: 2 },
-          { value: 'a', priority: 1 },
-        ]);
+      it('has an "entries" iterator', () => {
+        const entries = [...queue.entries()];
+
+        expect(entries[0]).toBeInstanceOf(QeweEntry);
+        expect(entries[0].value).toBe('b');
+        expect(entries[0].priority).toBe(2);
+
+        expect(entries[1]).toBeInstanceOf(QeweEntry);
+        expect(entries[1].value).toBe('a');
+        expect(entries[1].priority).toBe(1);
       });
 
       it('can check for the existence of a value', () => {
@@ -152,15 +159,15 @@ describe('Qewe', () => {
         expect(queue.size).toBe(3);
 
         const removed = queue.remove('c');
-        expect(removed).toEqual({ value: 'c', priority: 3 });
         expect(queue.size).toBe(2);
+        expect(removed).toEqual({ value: 'c', priority: 3 });
       });
 
       it('dequeues the next value', () => {
         const dequeued = queue.dequeue();
 
         expect(queue.size).toBe(1);
-        expect(queue.peek).toBe('a');
+        expect(queue.peek()).toBe('a');
         expect(dequeued).toBe('b');
       });
 
@@ -170,14 +177,14 @@ describe('Qewe', () => {
         const dequeued = queue.dequeueEnd();
 
         expect(queue.size).toBe(1);
-        expect(queue.peek).toBe('a');
+        expect(queue.peek()).toBe('a');
         expect(dequeued).toBe('d');
       });
 
       it('removes and returns all entries when cleared', () => {
         const entries = queue.clear();
 
-        expect(queue.isEmpty).toBe(true);
+        expect(queue.isEmpty()).toBe(true);
         expect(entries).toEqual([{ priority: 1, value: 'a' }]);
       });
     });

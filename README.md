@@ -29,11 +29,11 @@ const entry = new QeweEntry('world', 2);
 queue.enqueue('hello', 1);
 queue.enqueue(entry);
 
-console.log(queue.values); // [ 'world', 'hello' ]
+console.log(...queue); // [ 'world', 'hello' ]
 console.log(queue.size); // 2
 
-const value = queue.dequeue();
-console.log(value); // 'world'
+const dequeued = queue.dequeue();
+console.log(dequeued); // 'world'
 console.log(queue.size); // 1
 ```
 
@@ -43,28 +43,30 @@ A Qewe instance's queue is a list of `QeweEntry` instances. Each entry has a `va
 
 ```ts
 const entry = new QeweEntry('my-value', 1);
-console.log(entry); // { value: 'my-value', priority: 1 }
+console.log(entry); // QeweEntry { value: 'my-value', priority: 1 }
 
-const queue = new Qewe();
-queue.enqueue(entry);
-console.log(queue.entries); // [ { value: 'my-value', priority: 1 } ]
+const myQueue = new Qewe();
+myQueue.enqueue(entry);
+console.log(myQueue.queue); // [ QeweEntry { value: 'my-value', priority: 1 } ]
 ```
 
 The `enqueue` method of a Qewe instance also takes `value` and `priority` arguments, which will create a new `QeweEntry` instance and add it to the queue.
 
 ```ts
-const queue = new Qewe();
-queue.enqueue('my-value', 1);
-console.log(queue.entries); // [ { value: 'my-value', priority: 1 } ]
+const myQueue = new Qewe();
+myQueue.enqueue('my-value', 1);
+console.log(myQueue.queue); // [ QeweEntry { value: 'my-value', priority: 1 } ]
 ```
 
 If the priority of an entry can be inferred when enqueue is called then you can omit the `priority` argument and instead pass an `inferValuePriority` function to the constructor:
 
 ```ts
-const queue = new Qewe<string>({ inferValuePriority: (value) => value.length });
-queue.enqueue('hello');
-queue.enqueue('qewe');
-console.log(queue.entries); // [ { value: 'hello', priority: 5 }, { value: 'qewe', priority: 4 } ]
+const myQueue = new Qewe<string>({
+  inferValuePriority: (value) => value.length,
+});
+myQueue.enqueue('hello');
+myQueue.enqueue('qewe');
+console.log(myQueue.queue); // [ QeweEntry { value: 'hello', priority: 5 }, QeweEntry { value: 'qewe', priority: 4 } ]
 ```
 
 ### Queue Behavior
@@ -155,26 +157,14 @@ const queue: new Qewe<{ x: number; y: number; mass: number }>({
 ### Instance Properties
 
 ```ts
-// returns the next entry in the queue (without removing it, like dequeue does).
-Qewe.prototype.peek: T | undefined;
-
-// returns the final entry in the queue (without removing it, like dequeueEnd does).
-Qewe.prototype.peekEnd: T | undefined;
-
-// returns a list all values in the queue.
-Qewe.prototype.values: T[];
-
-// returns a list all entries in the queue.
-Qewe.prototype.entries: QeweEntry<T>[];
-
 // returns the amount of entries of the queue.
 Qewe.prototype.size: number;
 
 // returns the maximum amount of entries that the queue can hold.
 Qewe.prototype.maxSize: number;
 
-// returns whether or not the queue is empty.
-Qewe.prototype.isEmpty: boolean;
+// returns the queue in its current state.
+Qewe.prototype.queue: QeweEntry<T>[];
 
 // returns the type (minimum or maximum) of the queue.
 Qewe.prototype.queueType: QueueType;
@@ -183,22 +173,37 @@ Qewe.prototype.queueType: QueueType;
 ### Instance Methods
 
 ```ts
-// iterator that yields all values in the queue.
+// returns a generator that yields the values in the queue. synonymous with Qewe.prototype.values.
 Qewe.prototype[Symbol.Iterator](): T[];
+
+// returns a generator that yields the queue's values.
+Qewe.prototype.values(): Generator<T[]>;
+
+// returns a generator that yields the queue's entries.
+Qewe.prototype.entries(): Generator<QeweEntry<T>>;
 
 // returns whether or not the queue contains a given value.
 Qewe.prototype.contains(value: T): boolean;
+
+// returns whether or not the queue is empty.
+Qewe.prototype.isEmpty(): boolean;
 
 // create a new entry which can be passed to `enqueue`. returns the entry.
 Qewe.prototype.createEntry(value: T, priority?: number): QeweEntry<T>;
 
 // add a new entry to the queue. returns the new queue entry.
 Qewe.prototype.enqueue(entry: QeweEntry<T>): QeweEntry<T>;
+
+// add a new value to the queue.
+// NOTE: the priority argument is only optional when when
+// `options.inferValuePriority` is defined for the instance.
 Qewe.prototype.enqueue(value: T, priority?: number): QeweEntry<T>;
 
-// add a new value to the queue, inferring its priority. returns the new queue entry.
-// NOTE: this is only available when `options.inferValuePriority` is defined.
-Qewe.prototype.enqueue(value: T): QeweEntry<T>;
+// returns the next entry in the queue (without removing it, like dequeue does).
+Qewe.prototype.peek(): T | undefined;
+
+// returns the final entry in the queue (without removing it, like dequeueEnd does).
+Qewe.prototype.peekEnd(): T | undefined;
 
 // removes the first entry from the queue and returns it.
 Qewe.prototype.dequeue(): T;
