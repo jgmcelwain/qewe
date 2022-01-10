@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0-rc.0](https://github.com/jgmcelwain/qewe/compare/v1.0.0-beta.5...v1.0.0-rc.0) (2022-01-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* this adjustment means that Qewe instance properties cannot be changed after the instance has been constructed.
+
+### Features
+
+* prefer readonly to public ([9409524](https://github.com/jgmcelwain/qewe/commit/9409524623d8b56991c7b2c888a9ba853ad033bb))
+
+
+### Bug Fixes
+
+* ignore jest coverage output ([c443c3e](https://github.com/jgmcelwain/qewe/commit/c443c3ef9d7a0359bc4634b6b9e1109f328ac5f9))
+
 ## [1.0.0-beta.5](https://github.com/jgmcelwain/qewe/compare/v1.0.0-beta.4...v1.0.0-beta.5) (2022-01-10)
 
 
