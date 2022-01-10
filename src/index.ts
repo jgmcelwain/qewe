@@ -2,7 +2,7 @@ type QueueType = 'min' | 'max';
 
 type QeweOptions<T> = {
   queueType?: QueueType;
-  maximumQueueSize?: number;
+  maxSize?: number;
   initialEntries?: QeweEntry<T>[];
 } & (QeweOptionsWithInfer<T> | QeweOptionsNoInfer);
 interface QeweOptionsNoInfer {
@@ -32,22 +32,29 @@ class QeweEntry<T> {
 }
 
 class Qewe<T> {
-  protected _queue: QeweEntry<T>[] = [];
-  protected _inferValuePriority: ((value: T) => number) | null = null;
-  protected _queueType: QueueType = 'max';
-  protected _maxSize = Infinity;
+  /** get the function used to infer the priority of a value to be enqueued */
+  public inferValuePriority: ((value: T) => number) | null = null;
+
+  /** get the maximum amount of entries that the queue can hold. */
+  public maxSize = Infinity;
+
+  /** get the current queue state. */
+  public queue: QeweEntry<T>[] = [];
+
+  /** get the type (minimum or maximum) of the queue. */
+  public queueType: QueueType = 'max';
 
   constructor(options?: QeweOptions<T>) {
     if (options?.inferValuePriority !== undefined) {
-      this._inferValuePriority = options.inferValuePriority;
+      this.inferValuePriority = options.inferValuePriority;
     }
 
     if (options?.queueType !== undefined) {
-      this._queueType = options.queueType;
+      this.queueType = options.queueType;
     }
 
-    if (options?.maximumQueueSize !== undefined) {
-      this._maxSize = options.maximumQueueSize;
+    if (options?.maxSize !== undefined) {
+      this.maxSize = options.maxSize;
     }
 
     if (options?.initialEntries !== undefined) {
@@ -63,24 +70,9 @@ class Qewe<T> {
     }
   }
 
-  /** returns the maximum amount of entries that the queue can hold. */
-  get maxSize(): number {
-    return this._maxSize;
-  }
-
-  /** returns the queue in its current state. */
-  get queue(): QeweEntry<T>[] {
-    return this._queue;
-  }
-
-  /** returns the type (minimum or maximum) of the queue. */
-  get queueType(): QueueType {
-    return this._queueType;
-  }
-
-  /** returns the amount of entries of the queue. */
+  /** get the amount of entries of the queue. */
   get size(): number {
-    return this._queue.length;
+    return this.queue.length;
   }
 
   [Symbol.iterator]() {
@@ -89,17 +81,17 @@ class Qewe<T> {
 
   /** removes all entries from the queue and returns them. */
   clear(): QeweEntry<T>[] {
-    return this._queue.splice(0, this._queue.length);
+    return this.queue.splice(0, this.queue.length);
   }
 
   /** check to see if a certain value exists in the queue. */
   contains(value: T): boolean {
-    return this._queue.some((entry) => Object.is(entry.value, value));
+    return this.queue.some((entry) => Object.is(entry.value, value));
   }
 
   /** create a new entry which can be passed to `enqueue`. returns the entry. */
   createEntry(value: T, priority?: number): QeweEntry<T> {
-    const entryPriority = priority ?? this._inferValuePriority?.(value);
+    const entryPriority = priority ?? this.inferValuePriority?.(value);
 
     if (entryPriority === undefined) {
       throw new Error(QeweErrors.NoPriorityValue);
@@ -110,7 +102,7 @@ class Qewe<T> {
 
   /** removes the first entry from the queue and returns its value. */
   dequeue(): T {
-    const entry = this._queue.shift();
+    const entry = this.queue.shift();
 
     if (entry !== undefined) {
       return entry.value;
@@ -121,7 +113,7 @@ class Qewe<T> {
 
   /** removes the last entry from the queue and returns its value. */
   dequeueEnd(): T {
-    const entry = this._queue.pop();
+    const entry = this.queue.pop();
 
     if (entry !== undefined) {
       return entry.value;
@@ -143,7 +135,7 @@ class Qewe<T> {
   enqueue(entry: QeweEntry<T>): QeweEntry<T>;
   enqueue(value: T, priority?: number): QeweEntry<T>;
   enqueue(value: T | QeweEntry<T>, priority?: number): QeweEntry<T> {
-    if (this.size === this._maxSize) {
+    if (this.size === this.maxSize) {
       throw new Error(QeweErrors.MaxQueueSizeReached);
     }
 
@@ -154,11 +146,11 @@ class Qewe<T> {
       newEntry = this.createEntry(value, priority);
     }
 
-    const priorityIndex = this._queue.findIndex((entry) => {
+    const priorityIndex = this.queue.findIndex((entry) => {
       // if this is a min queue we want to find the first entry in the queue
       // that has a priority higher than our new entry. if this is a max queue
       // then we want the opposite.
-      if (this._queueType === 'min') {
+      if (this.queueType === 'min') {
         return entry.priority > newEntry.priority;
       } else {
         return entry.priority < newEntry.priority;
@@ -166,9 +158,9 @@ class Qewe<T> {
     });
 
     if (priorityIndex > -1) {
-      this._queue.splice(priorityIndex, 0, newEntry);
+      this.queue.splice(priorityIndex, 0, newEntry);
     } else {
-      this._queue.push(newEntry);
+      this.queue.push(newEntry);
     }
 
     return newEntry;
@@ -176,27 +168,27 @@ class Qewe<T> {
 
   /** returns whether or not the queue is empty. */
   isEmpty(): boolean {
-    return this._queue.length === 0;
+    return this.queue.length === 0;
   }
 
   /** returns the first value in the queue. */
   peek(): T | undefined {
-    return this._queue[0]?.value;
+    return this.queue[0]?.value;
   }
 
   /** returns the last value in the queue. */
   peekEnd(): T | undefined {
-    return this._queue[this._queue.length - 1]?.value;
+    return this.queue[this.queue.length - 1]?.value;
   }
 
   /** removes a specified value from the queue and returns it. */
   remove(value: T): QeweEntry<T> {
-    const index = this._queue.findIndex((entry) =>
+    const index = this.queue.findIndex((entry) =>
       Object.is(entry.value, value),
     );
 
     if (index > -1) {
-      return this._queue.splice(index, 1)[0];
+      return this.queue.splice(index, 1)[0];
     } else {
       throw new Error(QeweErrors.NotFound);
     }
@@ -204,7 +196,7 @@ class Qewe<T> {
 
   /** returns a generator that yields the queue's values */
   *values(): Generator<T> {
-    const queueValues: T[] = this._queue.map((entry) => entry.value);
+    const queueValues: T[] = this.queue.map((entry) => entry.value);
 
     for (const value of queueValues) {
       yield value;

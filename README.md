@@ -110,7 +110,7 @@ You can customize a Qewe instance by passing a `QeweOptions` object to the const
 type QueueType = 'min' | 'max';
 interface QeweOptions<T> {
   queueType?: QueueType;
-  maximumQueueSize?: number;
+  maxSize?: number;
   inferValuePriority?: (value: T) => number;
   initialEntries?: QeweEntry<T>[];
   initialValues?: T[];
@@ -118,7 +118,7 @@ interface QeweOptions<T> {
 
 const queue: new Qewe<{ x: number; y: number; mass: number }>({
   queueType: 'min',
-  maximumQueueSize: 4,
+  maxSize: 4,
   inferValuePriority: (value) => value.mass,
   initialValues: [
     { x: 1, y: 2, mass: 4 },
@@ -133,11 +133,11 @@ const queue: new Qewe<{ x: number; y: number; mass: number }>({
 
   `queueType` is `max` by default.
 
-- #### `maximumQueueSize: number`
+- #### `maxSize: number`
 
   Specify a maximum number of entries that can exist in the instance's priority queue.
 
-  `maximumQueueSize` is `Infinity` by default.
+  `maxSize` is `Infinity` by default.
 
 - #### `inferValuePriority: (value: T) => number`
 
@@ -160,17 +160,20 @@ const queue: new Qewe<{ x: number; y: number; mass: number }>({
 ### Instance Properties
 
 ```ts
-// returns the amount of entries of the queue.
+// get the amount of entries of the queue.
 Qewe.prototype.size: number;
 
-// returns the maximum amount of entries that the queue can hold.
+// get the maximum amount of entries that the queue can hold.
 Qewe.prototype.maxSize: number;
 
-// returns the queue in its current state.
+// get the current queue state.
 Qewe.prototype.queue: QeweEntry<T>[];
 
-// returns the type (minimum or maximum) of the queue.
+// get the type (minimum or maximum) of the queue.
 Qewe.prototype.queueType: QueueType;
+
+// get the function used to infer the priority of a value to be enqueued
+Qewe.prototype.inferValuePriority: ((value: T) => number) | null;
 ```
 
 ### Instance Methods

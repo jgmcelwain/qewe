@@ -51,7 +51,7 @@ describe('Qewe', () => {
     });
 
     describe('max queue size', () => {
-      const queue = new Qewe<string>({ maximumQueueSize: 3 });
+      const queue = new Qewe<string>({ maxSize: 3 });
 
       it('prevents entries from being queued when the maximum size is reached', () => {
         queue.enqueue('a', 3);
@@ -90,7 +90,7 @@ describe('Qewe', () => {
   });
 
   describe('queue functionality', () => {
-    const queue = new Qewe<string>({ queueType: 'max', maximumQueueSize: 10 });
+    const queue = new Qewe<string>({ queueType: 'max', maxSize: 10 });
 
     describe('initialized queue', () => {
       it('returns its configuration parameters', () => {
