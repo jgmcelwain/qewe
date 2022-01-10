@@ -22,8 +22,8 @@ enum QeweErrors {
 }
 
 class QeweEntry<T> {
-  public value: T;
-  public priority: number;
+  readonly value: T;
+  readonly priority: number;
 
   constructor(value: T, priority: number) {
     this.value = value;
@@ -33,16 +33,16 @@ class QeweEntry<T> {
 
 class Qewe<T> {
   /** get the function used to infer the priority of a value to be enqueued */
-  public inferValuePriority: ((value: T) => number) | null = null;
+  readonly inferValuePriority: ((value: T) => number) | null = null;
 
   /** get the maximum amount of entries that the queue can hold. */
-  public maxSize = Infinity;
+  readonly maxSize = Infinity;
 
   /** get the current queue state. */
-  public queue: QeweEntry<T>[] = [];
+  readonly queue: QeweEntry<T>[] = [];
 
   /** get the type (minimum or maximum) of the queue. */
-  public queueType: QueueType = 'max';
+  readonly queueType: QueueType = 'max';
 
   constructor(options?: QeweOptions<T>) {
     if (options?.inferValuePriority !== undefined) {
