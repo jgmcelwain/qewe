@@ -177,7 +177,7 @@ Qewe.prototype.queueType: QueueType;
 Qewe.prototype[Symbol.Iterator](): T[];
 
 // returns a generator that yields the queue's values.
-Qewe.prototype.values(): Generator<T[]>;
+Qewe.prototype.values(): Generator<T>;
 
 // returns a generator that yields the queue's entries.
 Qewe.prototype.entries(): Generator<QeweEntry<T>>;

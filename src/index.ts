@@ -203,7 +203,7 @@ class Qewe<T> {
   }
 
   /** returns a generator that yields the queue's values */
-  *values() {
+  *values(): Generator<T> {
     const queueValues: T[] = this._queue.map((entry) => entry.value);
 
     for (const value of queueValues) {
