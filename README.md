@@ -37,9 +37,9 @@ console.log(dequeued); // 'world'
 console.log(queue.size); // 1
 ```
 
-### `QeweEntry<T>` & Enqueueing
+### Enqueueing
 
-A Qewe instance's queue is a list of `QeweEntry` instances. Each entry has a `value` and a `priority`:
+A [`Qewe`](#qewe-api) instance's queue is a list of [`QeweEntry`](#qeweentry-api) instances. Each entry has a `value` and a `priority`:
 
 ```ts
 const myQueue = new Qewe();
@@ -100,13 +100,15 @@ if (!queue.isEmpty()) {
 
 The `peek` and `peekEnd` properties of an instance do _not_ throw an error when the queue is empty. Instead, they return `undefined`.
 
-## API
+## `Qewe` API
 
 ### Constructor Options
 
 You can customize a Qewe instance by passing a `QeweOptions` object to the constructor:
 
 ```ts
+class Qewe<T>(options?: QeweOptions<T>);
+
 type QueueType = 'min' | 'max';
 interface QeweOptions<T> {
   queueType?: QueueType;
@@ -115,16 +117,6 @@ interface QeweOptions<T> {
   initialEntries?: QeweEntry<T>[];
   initialValues?: T[];
 }
-
-const queue: new Qewe<{ x: number; y: number; mass: number }>({
-  queueType: 'min',
-  maxSize: 4,
-  inferValuePriority: (value) => value.mass,
-  initialValues: [
-    { x: 1, y: 2, mass: 4 },
-    { x: 3, y: -3, mass: 1.5 }
-  ]
-});
 ```
 
 - #### `queueType: QueueType`
@@ -232,3 +224,31 @@ All errors thrown by a Qewe instance are members of the `QeweError` enum, which 
 | `QeweError.MaxQueueSizeReached` | Cannot enqueue - the queue is already at its max size.                                            |
 | `QeweError.EmptyQueue`          | Cannot dequeue - the queue is empty.                                                              |
 | `QeweError.NotFound`            | Cannot remove - the value was not found in the queue.                                             |
+
+## `QeweEntry` API
+
+### Constructor Arguments
+
+A new `QeweEntry` instance takes two arguments in its constructor:
+
+```ts
+class QeweEntry<T>(value: T, priority: number);
+```
+
+- #### `value: T`
+
+  The value of the entry.
+
+- #### `priority: number`
+
+  The priority of the entry.
+
+### Instance Properties
+
+```ts
+// the value of the entry
+QeweEntry.prototype.value: T;
+
+// the priority of the entry
+QeweEntry.prototype.priority: number;
+```
