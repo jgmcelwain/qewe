@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0](https://github.com/jgmcelwain/qewe/compare/v1.0.0-rc.1...v1.0.0) (2022-01-11)
+
+
+### Bug Fixes
+
+* **dev:** enable strict mode ([fc6b53f](https://github.com/jgmcelwain/qewe/commit/fc6b53fdc171afa5413baa87341e0eb3b6064676))
+
 ## [1.0.0-rc.1](https://github.com/jgmcelwain/qewe/compare/v1.0.0-rc.0...v1.0.0-rc.1) (2022-01-11)
 
 
