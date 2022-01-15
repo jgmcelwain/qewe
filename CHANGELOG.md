@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/jgmcelwain/qewe/compare/v1.0.0...v1.1.0) (2022-01-15)
+
+
+### Features
+
+* pass an entry to .remove to remove it from the queue ([47a6592](https://github.com/jgmcelwain/qewe/commit/47a65929a6816c0e574b21e787cc1f6a82878ab5))
+
 ## [1.0.0](https://github.com/jgmcelwain/qewe/compare/v1.0.0-rc.1...v1.0.0) (2022-01-11)
 
 
