@@ -196,6 +196,13 @@ class Qewe<T> {
     return this.queue.splice(index, 1)[0];
   }
 
+  /** sorts the queue by comparing each entry's priority */
+  sort(): QeweEntry<T>[] {
+    return this.queue.sort(
+      (a, b) => (a.priority - b.priority) * (this.queueType === 'max' ? -1 : 1),
+    );
+  }
+
   /** returns a generator that yields the queue's values */
   *values(): Generator<T> {
     const queueValues: T[] = this.queue.map((entry) => entry.value);
