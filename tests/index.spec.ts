@@ -163,6 +163,15 @@ describe('Qewe', () => {
         expect(removed).toEqual({ value: 'c', priority: 3 });
       });
 
+      it('can remove a given entry', () => {
+        const entry = queue.enqueue('d', 3);
+        expect(queue.size).toBe(3);
+
+        const removed = queue.remove(entry);
+        expect(queue.size).toBe(2);
+        expect(removed).toEqual(entry);
+      });
+
       it('dequeues the next value', () => {
         const dequeued = queue.dequeue();
 

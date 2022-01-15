@@ -207,8 +207,9 @@ Qewe.prototype.dequeue(): T;
 // removes the last entry from the queue and returns its value.
 Qewe.prototype.dequeueEnd(): T;
 
-// removes a specified value from the queue and returns its entry.
+// removes a specified value or entry from the queue and returns the removed entry.
 Qewe.prototype.remove(value: T): QeweEntry<T>;
+Qewe.prototype.remove(entry: QeweEntry<T>): QeweEntry<T>;
 
 // removes all entries from the queue and returns them.
 Qewe.prototype.clear(): QeweEntry<T>[];

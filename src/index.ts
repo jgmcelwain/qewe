@@ -181,10 +181,12 @@ class Qewe<T> {
     return this.queue[this.queue.length - 1]?.value;
   }
 
-  /** removes a specified value from the queue and returns it. */
-  remove(value: T): QeweEntry<T> {
+  /** removes a specified value or entry from the queue and returns the removed entry. */
+  remove(entry: QeweEntry<T>): QeweEntry<T>;
+  remove(value: T): QeweEntry<T>;
+  remove(value: QeweEntry<T> | T): QeweEntry<T> {
     const index = this.queue.findIndex((entry) =>
-      Object.is(entry.value, value),
+      Object.is(value instanceof QeweEntry ? entry : entry.value, value),
     );
 
     if (index === -1) {
