@@ -70,18 +70,22 @@ class Qewe<T> {
     }
   }
 
-  protected _createReactivePriorityEntry(entry: QeweEntry<T>): QeweEntry<T> {
-    const proxy = new Proxy(entry, {
+  protected _createQeweEntryProxy(entry: QeweEntry<T>): QeweEntry<T> {
+    const entryProxy = new Proxy(entry, {
       set: (obj, prop, value, receiver) => {
-        const result = Reflect.set(obj, prop, value, receiver);
+        if (prop === 'priority') {
+          const result = Reflect.set(obj, prop, value, receiver);
 
-        if (prop === 'priority') this.sort();
+          this.sort();
 
-        return result;
+          return result;
+        } else {
+          return false;
+        }
       },
     });
 
-    return proxy;
+    return entryProxy;
   }
 
   /** get the amount of entries of the queue. */
@@ -160,7 +164,7 @@ class Qewe<T> {
       newEntry = this.createEntry(value, priority);
     }
 
-    newEntry = this._createReactivePriorityEntry(newEntry);
+    newEntry = this._createQeweEntryProxy(newEntry);
 
     const priorityIndex = this.queue.findIndex((entry) => {
       // if this is a min queue we want to find the first entry in the queue
