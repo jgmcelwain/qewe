@@ -64,8 +64,8 @@ Alternatively, you can create a `QeweEntry` instance yourself - either by using 
 ```ts
 const myQueue = new Qewe();
 
-const firstEntry = new QeweEntry('my-value', 1);
-const secondEntry = queue.createEntry('my-other-value', 2);
+const firstEntry = queue.createEntry('my-value', 1);
+const secondEntry = new QeweEntry('my-other-value', 2);
 
 myQueue.enqueue(firstEntry);
 myQueue.enqueue(secondEntry);
