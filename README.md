@@ -24,10 +24,9 @@ You can also import qewe with a script tag via [unpkg](https://unpkg.com):
 import { Qewe } from 'qewe';
 
 const queue = new Qewe();
-const entry = new QeweEntry('world', 2);
 
 queue.enqueue('hello', 1);
-queue.enqueue(entry);
+queue.enqueue('world', 2);
 
 console.log(...queue); // [ 'world', 'hello' ]
 console.log(queue.size); // 2
@@ -39,19 +38,7 @@ console.log(queue.size); // 1
 
 ### Enqueueing
 
-A [`Qewe`](#qewe-api) instance's queue is a list of [`QeweEntry`](#qeweentry-api) instances. Each entry has a `value` and a `priority`:
-
-```ts
-const myQueue = new Qewe();
-
-const entry = new QeweEntry('my-value', 1);
-console.log(entry); // QeweEntry { value: 'my-value', priority: 1 }
-
-myQueue.enqueue(entry);
-console.log(myQueue.queue); // [ QeweEntry { value: 'my-value', priority: 1 } ]
-```
-
-The `enqueue` method of a Qewe instance also takes `value` and `priority` arguments, which will create a new `QeweEntry` instance and add it to the queue.
+A [`Qewe`](#qewe-api) instance's queue is a list of [`QeweEntry`](#qeweentry-api) instances. The recommended way to enqueue new values is to use the `enqueue` method, passing in a value and a priority:
 
 ```ts
 const myQueue = new Qewe();
@@ -70,6 +57,19 @@ const myQueue = new Qewe<string>({
 myQueue.enqueue('hello');
 myQueue.enqueue('qewe');
 console.log(myQueue.queue); // [ QeweEntry { value: 'hello', priority: 5 }, QeweEntry { value: 'qewe', priority: 4 } ]
+```
+
+Alternatively, you can create a `QeweEntry` instance yourself - either by using the `new QeweEntry` constructor or the `createEntry` method on a `Qewe` instance - and pass it to the `enqueue` method. This can be useful if you will need to requeue the same entry later.
+
+```ts
+const myQueue = new Qewe();
+
+const firstEntry = new QeweEntry('my-value', 1);
+const secondEntry = queue.createEntry('my-other-value', 2);
+
+myQueue.enqueue(firstEntry);
+myQueue.enqueue(secondEntry);
+console.log(myQueue.queue); // [ QeweEntry { value: 'my-other-value', priority: 2 }, QeweEntry { value: 'my-value', priority: 1 } ]
 ```
 
 ### Queue Behavior
@@ -98,7 +98,7 @@ if (!queue.isEmpty()) {
 }
 ```
 
-The `peek` and `peekEnd` properties of an instance do _not_ throw an error when the queue is empty. Instead, they return `undefined`.
+Note: the `peek` and `peekEnd` properties of an instance do _not_ throw an error when the queue is empty. Instead, they return `undefined`.
 
 ## `Qewe` API
 
@@ -133,9 +133,9 @@ interface QeweOptions<T> {
 
 - #### `inferValuePriority: (value: T) => number`
 
-  Define a function that will be used to infer the priority of a value when it is added to the queue. This can be useful when the priority is something that can be derived from the value itself.
+  Define a function that will be used to infer the priority of a value when an entry is created. This can be useful when the priority is something that can be derived from the value itself.
 
-  This function is only used by `enqueue` if a `priority` argument is not provided and the `value` argument is not an instance of `QeweEntry`.
+  By providing this function you can omit the `priority` argument from the `enqueue` and `createEntry`.
 
   `inferValuePriority` is `undefined` by default, which means you always have to provide the priority when adding a value to the queue.
 
@@ -187,6 +187,8 @@ Qewe.prototype.contains(value: T): boolean;
 Qewe.prototype.isEmpty(): boolean;
 
 // create a new entry which can be passed to `enqueue`. returns the entry.
+// NOTE: the priority argument is only optional when when
+// `options.inferValuePriority` is defined for the instance.
 Qewe.prototype.createEntry(value: T, priority?: number): QeweEntry<T>;
 
 // add a new value to the queue. returns the new queue entry.
