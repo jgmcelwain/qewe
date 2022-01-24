@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/jgmcelwain/qewe/compare/v1.1.0...v1.1.1) (2022-01-24)
+
+
+### Features
+
+* update README documentation ([6cd7bea](https://github.com/jgmcelwain/qewe/commit/6cd7bea013d6faf4e34a8dcd588fc8c335c3fed0))
+
 ## [1.1.0](https://github.com/jgmcelwain/qewe/compare/v1.0.0...v1.1.0) (2022-01-15)
 
 
