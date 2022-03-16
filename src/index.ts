@@ -23,7 +23,7 @@ enum QeweErrors {
 
 class QeweEntry<T> {
   readonly value: T;
-  readonly priority: number;
+  public priority: number;
 
   constructor(value: T, priority: number) {
     this.value = value;
@@ -68,6 +68,24 @@ class Qewe<T> {
         this.enqueue(initialValue);
       }
     }
+  }
+
+  protected _createQeweEntryProxy(entry: QeweEntry<T>): QeweEntry<T> {
+    const entryProxy = new Proxy(entry, {
+      set: (obj, prop, value, receiver) => {
+        if (prop === 'priority') {
+          const result = Reflect.set(obj, prop, value, receiver);
+
+          this.sort();
+
+          return result;
+        } else {
+          return false;
+        }
+      },
+    });
+
+    return entryProxy;
   }
 
   /** get the amount of entries of the queue. */
@@ -146,6 +164,8 @@ class Qewe<T> {
       newEntry = this.createEntry(value, priority);
     }
 
+    newEntry = this._createQeweEntryProxy(newEntry);
+
     const priorityIndex = this.queue.findIndex((entry) => {
       // if this is a min queue we want to find the first entry in the queue
       // that has a priority higher than our new entry. if this is a max queue
@@ -194,6 +214,13 @@ class Qewe<T> {
     }
 
     return this.queue.splice(index, 1)[0];
+  }
+
+  /** sorts the queue by comparing each entry's priority */
+  sort(): QeweEntry<T>[] {
+    return this.queue.sort(
+      (a, b) => (a.priority - b.priority) * (this.queueType === 'max' ? -1 : 1),
+    );
   }
 
   /** returns a generator that yields the queue's values */
